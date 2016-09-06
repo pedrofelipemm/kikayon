@@ -15,19 +15,14 @@
             android:id="@+id/app_bar"
             layout="@layout/app_bar"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/app_bar"
-            android:text="Hello World!"/>
-
     </RelativeLayout>
 
-    <fragment android:id="@+id/drawer_fragment"
+    <fragment
+        android:id="@+id/drawer_fragment"
         android:name="pmoreira.kikayon.DrawerFragment"
         android:layout_width="@dimen/drawer_width"
-        android:layout_gravity="start"
         android:layout_height="match_parent"
+        android:layout_gravity="start"
         app:layout="@layout/fragment_drawer"
         tools:layout="@layout/fragment_drawer"/>
 

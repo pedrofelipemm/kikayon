@@ -1,7 +1,6 @@
 package pmoreira.kikayon;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -20,19 +19,22 @@ public class DrawerFragment extends Fragment {
     private static final String DRAWER_PREFERENCES = "DRAWER_PREFERENCES";
     private static final String KEY_USER_LEARNED_DRAWER = "USER_LEARNED_DRAWER";
 
-    private View containerView;
+    // TODO: DELETE
+    // private View containerView;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
 
-    private boolean mFromSavedInstance;
+    // TODO: DELETE
+    // private boolean mFromSavedInstance;
     private boolean mUserlearnedDrawer;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mFromSavedInstance = savedInstanceState != null;
-        mUserlearnedDrawer = getFromPreferences(getActivity(), KEY_USER_LEARNED_DRAWER, false);
+        // TODO: DELETE
+        // mFromSavedInstance = savedInstanceState != null;
+        // mUserlearnedDrawer = getFromPreferences(getActivity(), KEY_USER_LEARNED_DRAWER, false);
 
     }
 
@@ -43,7 +45,8 @@ public class DrawerFragment extends Fragment {
 
     public void setUp(final int fragmentId, final DrawerLayout drawerLayout, final Toolbar toolbar) {
 
-        containerView = getActivity().findViewById(fragmentId);
+        // TODO: DELETE
+        // containerView = getActivity().findViewById(fragmentId);
 
         mDrawerLayout = drawerLayout;
 
@@ -53,10 +56,11 @@ public class DrawerFragment extends Fragment {
             public void onDrawerOpened(final View drawerView) {
                 super.onDrawerOpened(drawerView);
 
-                if (!mUserlearnedDrawer) {
-                    mUserlearnedDrawer = true;
-                    saveToPreferences(getActivity(), KEY_USER_LEARNED_DRAWER, mUserlearnedDrawer);
-                }
+                // TODO: DELETE
+                // if (!mUserlearnedDrawer) {
+                //  mUserlearnedDrawer = true;
+                // saveToPreferences(getActivity(), KEY_USER_LEARNED_DRAWER, mUserlearnedDrawer);
+                // }
                 getActivity().invalidateOptionsMenu();
             }
 
@@ -65,26 +69,37 @@ public class DrawerFragment extends Fragment {
                 super.onDrawerClosed(drawerView);
                 getActivity().invalidateOptionsMenu();
             }
+
+            @Override
+            public void onDrawerSlide(final View drawerView, final float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                if (slideOffset < 0.3) { toolbar.setAlpha(1 - slideOffset); }
+            }
         };
 
-//        if (!mUserlearnedDrawer && !mFromSavedInstance) {
-//            mDrawerLayout.openDrawer(containerView);
-//        }
+        // TODO: DELETE
+        //        if (!mUserlearnedDrawer && !mFromSavedInstance) {
+        //            mDrawerLayout.openDrawer(containerView);
+        //        }
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        mDrawerLayout.post(new Runnable() { public void run() { mDrawerToggle.syncState(); } });
+        mDrawerLayout.post(new Runnable() {
+            public void run() {
+                mDrawerToggle.syncState();
+            }
+        });
     }
 
-    public static void saveToPreferences(final Context context, final String name, final boolean value) {
-        context.getSharedPreferences(DRAWER_PREFERENCES, context.MODE_MULTI_PROCESS)
-                .edit()
-                .putBoolean(name, value)
-                .apply();
-    }
-
-    public static boolean getFromPreferences(final Context context, final String name, boolean defaultValue) {
-        return context.getSharedPreferences(DRAWER_PREFERENCES, Context.MODE_PRIVATE)
-                .getBoolean(name, defaultValue);
-    }
+//    public static void saveToPreferences(final Context context, final String name, final boolean value) {
+//        context.getSharedPreferences(DRAWER_PREFERENCES, context.MODE_PRIVATE)
+//                .edit()
+//                .putBoolean(name, value)
+//                .apply();
+//    }
+//
+//    public static boolean getFromPreferences(final Context context, final String name, boolean defaultValue) {
+//        return context.getSharedPreferences(DRAWER_PREFERENCES, Context.MODE_PRIVATE)
+//                .getBoolean(name, defaultValue);
+//    }
 }
