@@ -1,6 +1,7 @@
 package pmoreira.kikayon;
 
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,13 +13,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_appbar);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.app_bar));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // TODO: 05/09/16 DELEETE THIS SHIT
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // TODO: 05/09/16 DELEETE THIS SHIT
+        setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        DrawerFragment drawer = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.drawer_fragment);
+        drawer.setUp(R.id.drawer_fragment, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
     }
 
     @Override
