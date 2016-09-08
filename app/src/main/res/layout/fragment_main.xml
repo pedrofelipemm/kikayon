@@ -6,8 +6,9 @@
     <TextView
         android:id="@+id/sub_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Top bla bla"/>
+        android:layout_height="wrap_content" android:textSize="20dp"
+        android:text="Recent added.."
+        android:textStyle="bold"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"

@@ -33,7 +33,7 @@ public class MainFragment extends Fragment {
     private static List<Information> getData() {
         List<Information> data = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            data.add(new Information(R.drawable.ic_account_circle_white_48dp, "Nome" + i));
+            data.add(new Information(R.drawable.ic_account_circle_white_48dp, "Eu gosto do individuo porque ele bate forte!"));
         }
         return data;
     }

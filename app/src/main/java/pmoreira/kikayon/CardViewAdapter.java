@@ -1,10 +1,12 @@
 package pmoreira.kikayon;
 
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -33,6 +35,9 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         ImageView image = (ImageView) cardView.findViewById(R.id.image);
         image.setImageDrawable(cardView.getResources().getDrawable(data.get(position).getImageId()));
         image.setContentDescription(data.get(position).getDescription());
+
+        LinearLayout layout = (LinearLayout) cardView.findViewById(R.id.card_body);
+        layout.setBackgroundColor(Color.parseColor(position % 2 == 0 ? "#0FDFDF" : "#FFDFDF"));
     }
 
     @Override
