@@ -6,16 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="pmoreira.kikayon.MainActivity">
+        android:orientation="vertical">
 
-        <include
-            android:id="@+id/app_bar"
-            layout="@layout/app_bar"/>
+        <LinearLayout android:id="@+id/container_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </RelativeLayout>
+            <include
+                android:id="@+id/app_bar"
+                layout="@layout/app_bar"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/container_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
     <fragment
         android:id="@+id/drawer_fragment"
