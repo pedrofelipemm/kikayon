@@ -59,7 +59,10 @@ public class LoginActivity extends AppCompatActivity {
         if (result != null) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(LoginActivity.EXTRA_PROFILE, result.getSignInAccount());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+
+            finish();
         } else {
             Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
         }
