@@ -1,12 +1,14 @@
 package pmoreira.kikayon;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,15 @@ public class MainFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         recyclerView.setAdapter(new CardViewAdapter(getData()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.new_record);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Toast.makeText(getActivity(), "Oi ;)", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         return view;
     }
