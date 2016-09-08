@@ -6,8 +6,9 @@
     <TextView
         android:id="@+id/sub_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:textSize="20dp"
+        android:layout_height="wrap_content"
         android:text="Recent added.."
+        android:textSize="20dp"
         android:textStyle="bold"/>
 
     <android.support.v7.widget.RecyclerView
@@ -17,5 +18,13 @@
         android:layout_below="@+id/sub_title"
         android:layout_marginTop="16dp"
         android:scrollbars="vertical"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/new_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_add_white_48dp"/>
 
 </RelativeLayout>

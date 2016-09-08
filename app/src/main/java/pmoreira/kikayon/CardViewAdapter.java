@@ -37,7 +37,6 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         image.setContentDescription(data.get(position).getDescription());
 
         LinearLayout layout = (LinearLayout) cardView.findViewById(R.id.card_body);
-        layout.setBackgroundColor(Color.parseColor(position % 2 == 0 ? "#0FDFDF" : "#FFDFDF"));
     }
 
     @Override
