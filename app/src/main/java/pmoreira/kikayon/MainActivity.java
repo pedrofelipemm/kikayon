@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+import pmoreira.kikayon.view.activity.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
         //TODO MOVE THIS
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container_content, new MainFragment());
-//        transaction.addToBackStack(null);
-//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.commit();
     }
 

@@ -1,8 +1,7 @@
-package pmoreira.kikayon;
+package pmoreira.kikayon.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
@@ -14,10 +13,14 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 
+import pmoreira.kikayon.MainActivity;
+import pmoreira.kikayon.R;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getName();
     private static final int RC_SIGN_IN = 9001;
+    private static final String VALID_DOMAIN = "@ciandt.com";
 
     public static final String EXTRA_PROFILE = "EXTRA_PROFILE";
 
@@ -57,15 +60,31 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleSignInResult(final GoogleSignInResult result) {
         if (result != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(LoginActivity.EXTRA_PROFILE, result.getSignInAccount());
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
-            finish();
+            if (isValid(result)) {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra(LoginActivity.EXTRA_PROFILE, result.getSignInAccount());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, "Please provide a valid ciandt mail", Toast.LENGTH_LONG).show();
+                Auth.GoogleSignInApi.signOut(googleApiClient);
+            }
         } else {
-            Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean isValid(final GoogleSignInResult result) {
+
+        if (result.getSignInAccount() == null) {
+            return false;
+        }
+
+        String email = result.getSignInAccount().getEmail();
+        String domain = email.substring(email.indexOf("@"));
+
+        return VALID_DOMAIN.equals(domain);
     }
 
     private void setUp() {
@@ -79,5 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                 .Builder(this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .build();
+
+        googleApiClient.connect();
     }
 }

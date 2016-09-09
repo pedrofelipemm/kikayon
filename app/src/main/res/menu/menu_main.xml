@@ -7,11 +7,4 @@
         android:title="@string/settings"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/navigate"
-        android:icon="@drawable/arrow"
-        android:orderInCategory="200"
-        android:title="@string/next"
-        app:showAsAction="never"/>
-
 </menu>

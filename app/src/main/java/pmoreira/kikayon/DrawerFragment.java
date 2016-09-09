@@ -79,9 +79,8 @@ public class DrawerFragment extends Fragment {
 
     public static List<Information> getData() {
         List<Information> data = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            data.add(new Information(R.drawable.ic_airplanemode_active_black_48dp, "Image " + i));
-        }
+        data.add(new Information(R.drawable.ic_account_circle_black_48dp, "My records"));
+        data.add(new Information(R.drawable.ic_settings_black_48dp, "Settings"));
         return data;
     }
 }

@@ -1,5 +1,7 @@
 package pmoreira.kikayon;
 
+import java.util.Date;
+
 public class Information {
 
     private int imageId;
@@ -17,4 +19,5 @@ public class Information {
     public String getDescription() {
         return description;
     }
+
 }

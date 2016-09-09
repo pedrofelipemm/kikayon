@@ -2,7 +2,8 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#DADADA"
+                android:background="#FFFFFF"
+                android:elevation="7dp"
                 tools:context="pmoreira.kikayon.DrawerFragment">
 
 
@@ -42,6 +43,8 @@
         android:id="@+id/drawer_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/drawer_image_container"/>
+        android:layout_below="@+id/drawer_image_container"
+        android:layout_marginTop="8dp"
+        />
 
 </RelativeLayout>

@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import pmoreira.kikayon.model.RecordInformation;
 
 public class MainFragment extends Fragment {
 
@@ -42,8 +45,8 @@ public class MainFragment extends Fragment {
 
     private static List<Information> getData() {
         List<Information> data = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            data.add(new Information(R.drawable.ic_account_circle_white_48dp, "Sua frase aqui!"));
+        for (int i = 0; i < 3; i++) {
+            data.add(new RecordInformation(R.drawable.ic_account_circle_white_48dp, "Sua frase aqui!", new Date()));
         }
         return data;
     }
