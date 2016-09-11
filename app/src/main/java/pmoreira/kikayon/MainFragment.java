@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import pmoreira.kikayon.model.RecordInformation;
@@ -29,7 +29,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        recyclerView.setAdapter(new CardViewAdapter(getData()));
+        recyclerView.setAdapter(new CardViewAdapter(RECORDS));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.new_record);
@@ -44,10 +44,35 @@ public class MainFragment extends Fragment {
     }
 
     private static List<Information> getData() {
+        return mock();
+    }
+
+    private static List<Information> mock() {
         List<Information> data = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            data.add(new RecordInformation(R.drawable.ic_account_circle_white_48dp, "Sua frase aqui!", new Date()));
-        }
+        int img = R.drawable.ic_account_circle_white_48dp;
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+
+        cal.set(2015, 3, 3);
+        data.add(new RecordInformation(img, "Software livre é para quem tem tempo livre", null, "carlosh", cal.getTime()));
+
+        cal.set(2015, 7, 18);
+        data.add(new RecordInformation(img, "O que a gente não faz por hora extra?", null, "dmenon", cal.getTime()));
+
+        cal.set(2016, 1, 2);
+        data.add(new RecordInformation(img, "Estava mijando pensando em você", "Falando com o dmenon durante o almoço sobre a pedra no rim", "murilop", cal.getTime()));
+
+        cal.set(2016, 7, 31);
+        data.add(new RecordInformation(img, "Sim, não só dei, como até amassou. Tive que trocar o portão.", "Quando o lmoretti perguntou se ele já havia dado ré sem dó de si", "alans", cal.getTime()));
+
+        cal.set(2015, 8, 18);
+        data.add(new RecordInformation(img, "O bom senso que é difíce", "Antes de comer absurdo no pesqueiro do rolinha", "rmariano", cal.getTime()));
+
         return data;
     }
+
+    // TODO remove it
+    public static final List<Information> RECORDS = new ArrayList() {{
+        addAll(mock());
+    }};
 }

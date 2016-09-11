@@ -7,7 +7,8 @@
         android:id="@+id/sub_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recent added.."
+        android:layout_centerHorizontal="true"
+        android:text="Latest Acquisitions"
         android:textSize="20dp"
         android:textStyle="bold"/>
 

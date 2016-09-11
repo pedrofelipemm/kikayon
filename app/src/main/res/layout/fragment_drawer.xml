@@ -6,7 +6,6 @@
                 android:elevation="7dp"
                 tools:context="pmoreira.kikayon.DrawerFragment">
 
-
     <LinearLayout
         android:id="@+id/drawer_image_container"
         android:layout_width="match_parent"

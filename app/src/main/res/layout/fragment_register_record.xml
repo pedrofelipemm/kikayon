@@ -1,44 +1,88 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:padding="16dp"
               tools:context="pmoreira.kikayon.view.fragment.RegisterRecordFragment">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="56dp">
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Blablabla"/>
+        <!--<ImageView-->
+        <!--android:id="@+id/logo"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="72dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginBottom="24dp"-->
+        <!--android:src="@drawable/kikayon"/>-->
 
-        <EditText
-            android:layout_width="wrap_content"
+        <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginTop="8dp">-->
+
+        <!--<pmoreira.kikayon.widget.CustomAutoCompleteTextView-->
+        <!--android:id="@+id/input_login"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="login"/>-->
+        <!--</android.support.design.widget.TextInputLayout>-->
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/input_login"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            app:ms_alignLabels="true"
+            app:ms_arrowSize="16dp"
+            app:ms_floatingLabelColor="@color/accent"
+            app:ms_floatingLabelText="login"
+            app:ms_highlightColor="@color/accent"
+            app:ms_hint="Login"
+            app:ms_multiline="false"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Blablabla"/>
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/input_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phrase or thought"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/input_obs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Observation"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_new_record"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/accent"
+            android:padding="12dp"
+            android:text="Add"
+            android:textColor="#FFF"/>
+
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Blablabla"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Blablabla"/>
-
-    </LinearLayout>
-
-
 </LinearLayout>

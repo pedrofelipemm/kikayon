@@ -8,9 +8,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="5dp"
+    android:minHeight="100dp"
     app:cardCornerRadius="2dp"
     app:contentPadding="10dp">
 
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#e1f5fe"
+        android:minHeight="85dp"
         android:weightSum="1">
 
         <ImageView
@@ -34,7 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:text="HELLO WORLD!"
+            android:layout_weight="1"
+            android:text="HELLO WORLD! "
             android:textStyle="bold"/>
 
         <TextView

@@ -7,6 +7,8 @@
     <string name="drawer_close">Close</string>
     <string name="title_activity_main2">Main2Activity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="msg_item_add_success">Item added successfully!</string>
+    <string name="msg_select_one_option">Please, select one login option!</string>
+    <string name="msg_fill_field">Please, fill the field: %1$s</string>
 </resources>

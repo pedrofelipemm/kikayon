@@ -1,6 +1,8 @@
 package pmoreira.kikayon.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -59,7 +61,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void handleSignInResult(final GoogleSignInResult result) {
-        if (result != null) {
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() == null) {
+            Toast.makeText(this, "No internet connection available!", Toast.LENGTH_SHORT).show();
+        } else if (result != null) {
             if (isValid(result)) {
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(LoginActivity.EXTRA_PROFILE, result.getSignInAccount());
