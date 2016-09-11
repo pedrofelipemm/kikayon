@@ -3,6 +3,7 @@ package pmoreira.kikayon;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import pmoreira.kikayon.utils.FragmentUtils;
 
 public class MainFragment extends Fragment {
 
+    public static final String RECORD_ID = "RECORD_ID";
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,14 +32,14 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        recyclerView.setAdapter(new CardViewAdapter(RECORDS));
+        recyclerView.setAdapter(new CardViewAdapter(RECORDS, new CardClickListener()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.new_record);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                FragmentUtils.selectFragment(getActivity().getSupportFragmentManager(), 1);
+                FragmentUtils.selectFragment(getActivity().getSupportFragmentManager(), FragmentUtils.REGISTER_RECORD);
             }
         });
 
@@ -75,4 +78,19 @@ public class MainFragment extends Fragment {
     public static final List<Information> RECORDS = new ArrayList() {{
         addAll(mock());
     }};
+
+    private class CardClickListener implements CardViewAdapter.onClickListener {
+
+        @Override
+        public void onClick(final int id) {
+
+            Bundle bundle = new Bundle();
+            bundle.putInt(RECORD_ID, id);
+
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+            Fragment fragment = FragmentUtils.selectFragment(fragmentManager, FragmentUtils.DETAIL_FRAGMENT);
+            fragment.setArguments(bundle);
+        }
+    }
 }

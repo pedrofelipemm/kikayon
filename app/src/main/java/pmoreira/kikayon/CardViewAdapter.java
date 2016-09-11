@@ -3,9 +3,9 @@ package pmoreira.kikayon;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -17,9 +17,11 @@ import pmoreira.kikayon.model.RecordInformation;
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
 
     private List<Information> data;
+    private onClickListener clickListener;
 
-    public CardViewAdapter(final List<Information> data) {
+    public CardViewAdapter(final List<Information> data, final onClickListener clickListener) {
         this.data = data;
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -30,9 +32,16 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        CardView cardView = holder.cardView;
 
         Information current = data.get(position);
+
+        final CardView cardView = holder.cardView;
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                clickListener.onClick(position);
+            }
+        });
 
         TextView description = (TextView) cardView.findViewById(R.id.description);
         description.setText(current.getDescription());
@@ -41,13 +50,11 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         image.setImageDrawable(cardView.getResources().getDrawable(data.get(position).getImageId()));
         image.setContentDescription(current.getDescription());
 
-        if(current instanceof RecordInformation) {
+        if (current instanceof RecordInformation) {
             Date date = ((RecordInformation) current).getDate();
             TextView dateTextView = (TextView) cardView.findViewById(R.id.row_date);
             dateTextView.setText(new SimpleDateFormat("dd/MM/yyyy").format(date));
         }
-
-        LinearLayout layout = (LinearLayout) cardView.findViewById(R.id.card_body);
     }
 
     @Override
@@ -63,5 +70,9 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
             super(cardView);
             this.cardView = cardView;
         }
+    }
+
+    public interface onClickListener {
+        void onClick(final int id);
     }
 }

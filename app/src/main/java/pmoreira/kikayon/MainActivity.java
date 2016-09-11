@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         // getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         setUpDrawer(toolbar);
-        FragmentUtils.selectFragment(getSupportFragmentManager(), 0);
+        FragmentUtils.selectFragment(getSupportFragmentManager(), FragmentUtils.MAIN);
     }
 
     private void setUpDrawer(final Toolbar toolbar) {
