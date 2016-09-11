@@ -52,8 +52,11 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
         if (current instanceof RecordInformation) {
             Date date = ((RecordInformation) current).getDate();
-            TextView dateTextView = (TextView) cardView.findViewById(R.id.row_date);
-            dateTextView.setText(new SimpleDateFormat("dd/MM/yyyy").format(date));
+            String login = ((RecordInformation) current).getLogin();
+            String authorDate = String.format("(%s, %s)",login ,new SimpleDateFormat("yyyy").format(date));
+
+            TextView dateTextView = (TextView) cardView.findViewById(R.id.author_date);
+            dateTextView.setText(authorDate);
         }
     }
 
