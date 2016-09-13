@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -36,8 +35,6 @@ public class RecordDetailFragment extends Fragment {
 
         TextView dateTextView = (TextView) view.findViewById(R.id.date);
         dateTextView.setText(new SimpleDateFormat("dd/MM/yyyy").format(record.getDate()));
-
-        ImageView imageView = (ImageView) view.findViewById(R.id.image);
 
         return view;
     }

@@ -19,9 +19,8 @@ public class FragmentUtils {
         Fragment fragment = getFragment(position);
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (!(fragment instanceof MainFragment)) transaction.addToBackStack(null);
-        transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
         transaction.replace(R.id.container_content, fragment);
+        if (!(fragment instanceof MainFragment)) transaction.addToBackStack(null);
         transaction.commit();
 
         return fragment;

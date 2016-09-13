@@ -1,11 +1,14 @@
 package pmoreira.kikayon;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +35,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        recyclerView.setAdapter(new CardViewAdapter(RECORDS, new CardClickListener()));
+        recyclerView.setAdapter(new CardViewAdapter(RECORDS, new CardClickListener(this)));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.new_record);
@@ -40,14 +43,12 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(final View v) {
                 FragmentUtils.selectFragment(getActivity().getSupportFragmentManager(), FragmentUtils.REGISTER_RECORD);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    setExitTransition(new Slide(Gravity.END));
             }
         });
 
         return view;
-    }
-
-    private static List<Information> getData() {
-        return mock();
     }
 
     private static List<Information> mock() {
@@ -81,16 +82,24 @@ public class MainFragment extends Fragment {
 
     private class CardClickListener implements CardViewAdapter.onClickListener {
 
+        Fragment parent;
+
+        public CardClickListener(final Fragment parent) {
+            this.parent = parent;
+        }
+
         @Override
         public void onClick(final int id) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+            Fragment detailFragment = FragmentUtils.selectFragment(fragmentManager, FragmentUtils.DETAIL_FRAGMENT);
 
             Bundle bundle = new Bundle();
             bundle.putInt(RECORD_ID, id);
+            detailFragment.setArguments(bundle);
 
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-            Fragment fragment = FragmentUtils.selectFragment(fragmentManager, FragmentUtils.DETAIL_FRAGMENT);
-            fragment.setArguments(bundle);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                parent.setExitTransition(new Slide(Gravity.TOP));
         }
     }
 }
