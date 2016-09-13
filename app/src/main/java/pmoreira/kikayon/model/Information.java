@@ -1,4 +1,4 @@
-package pmoreira.kikayon;
+package pmoreira.kikayon.model;
 
 import java.util.Date;
 

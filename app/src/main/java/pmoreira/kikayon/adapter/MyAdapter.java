@@ -1,4 +1,4 @@
-package pmoreira.kikayon;
+package pmoreira.kikayon.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.List;
+
+import pmoreira.kikayon.R;
+import pmoreira.kikayon.model.Information;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 

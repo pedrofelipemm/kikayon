@@ -15,7 +15,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 
-import pmoreira.kikayon.MainActivity;
 import pmoreira.kikayon.R;
 
 public class LoginActivity extends AppCompatActivity {

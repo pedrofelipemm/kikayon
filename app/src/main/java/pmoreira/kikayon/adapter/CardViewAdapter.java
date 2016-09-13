@@ -1,4 +1,4 @@
-package pmoreira.kikayon;
+package pmoreira.kikayon.adapter;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import pmoreira.kikayon.R;
+import pmoreira.kikayon.model.Information;
 import pmoreira.kikayon.model.RecordInformation;
 
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {

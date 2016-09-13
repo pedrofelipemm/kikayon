@@ -1,4 +1,4 @@
-package pmoreira.kikayon;
+package pmoreira.kikayon.view.fragment;
 
 
 import android.os.Bundle;
@@ -14,6 +14,10 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pmoreira.kikayon.adapter.MyAdapter;
+import pmoreira.kikayon.R;
+import pmoreira.kikayon.model.Information;
 
 public class DrawerFragment extends Fragment {
 

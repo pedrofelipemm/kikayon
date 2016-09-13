@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 
-import pmoreira.kikayon.MainFragment;
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
 

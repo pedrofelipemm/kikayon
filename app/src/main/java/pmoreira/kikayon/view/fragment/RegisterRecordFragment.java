@@ -17,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
-import pmoreira.kikayon.MainFragment;
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
 

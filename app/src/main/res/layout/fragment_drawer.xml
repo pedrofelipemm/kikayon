@@ -4,7 +4,7 @@
                 android:layout_height="match_parent"
                 android:background="#FFFFFF"
                 android:elevation="7dp"
-                tools:context="pmoreira.kikayon.DrawerFragment">
+                tools:context=".view.fragment.DrawerFragment">
 
     <LinearLayout
         android:id="@+id/drawer_image_container"

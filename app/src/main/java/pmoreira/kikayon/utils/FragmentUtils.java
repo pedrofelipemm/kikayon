@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import pmoreira.kikayon.MainFragment;
+import pmoreira.kikayon.view.fragment.MainFragment;
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.view.fragment.RecordDetailFragment;
 import pmoreira.kikayon.view.fragment.RegisterRecordFragment;

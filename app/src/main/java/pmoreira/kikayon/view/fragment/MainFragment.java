@@ -1,4 +1,4 @@
-package pmoreira.kikayon;
+package pmoreira.kikayon.view.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import pmoreira.kikayon.R;
+import pmoreira.kikayon.adapter.CardViewAdapter;
+import pmoreira.kikayon.model.Information;
 import pmoreira.kikayon.model.RecordInformation;
 import pmoreira.kikayon.utils.FragmentUtils;
 

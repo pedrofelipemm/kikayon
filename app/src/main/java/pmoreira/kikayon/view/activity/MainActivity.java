@@ -1,4 +1,4 @@
-package pmoreira.kikayon;
+package pmoreira.kikayon.view.activity;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -14,8 +14,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import pmoreira.kikayon.R;
 import pmoreira.kikayon.utils.FragmentUtils;
 import pmoreira.kikayon.view.activity.LoginActivity;
+import pmoreira.kikayon.view.fragment.DrawerFragment;
 
 public class MainActivity extends AppCompatActivity {
 

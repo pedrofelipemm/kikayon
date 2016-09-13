@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/drawer_fragment"
-        android:name="pmoreira.kikayon.DrawerFragment"
+        android:name="pmoreira.kikayon.view.fragment.DrawerFragment"
         android:layout_width="@dimen/drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"

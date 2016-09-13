@@ -4,8 +4,6 @@ import android.support.annotation.Nullable;
 
 import java.util.Date;
 
-import pmoreira.kikayon.Information;
-
 public class RecordInformation extends Information {
 
     private String observation;
