@@ -13,14 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.client.Firebase;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.adapter.CardViewAdapter;
+import pmoreira.kikayon.adapter.CardViewFirebaseAdapter;
 import pmoreira.kikayon.model.Information;
 import pmoreira.kikayon.model.RecordInformation;
+import pmoreira.kikayon.utils.Constants;
 import pmoreira.kikayon.utils.FragmentUtils;
 
 public class MainFragment extends Fragment {
@@ -37,8 +41,14 @@ public class MainFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        CardViewFirebaseAdapter cardViewFirebaseAdapter = new CardViewFirebaseAdapter(
+                RecordInformation.class,
+                R.layout.fragment_main,
+                CardViewFirebaseAdapter.ViewHolder.class,
+                new Firebase(Constants.FIREBASE_RECORDS_URL));
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        recyclerView.setAdapter(new CardViewAdapter(RECORDS, new CardClickListener(this)));
+        recyclerView.setAdapter(cardViewFirebaseAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.new_record);
@@ -54,42 +64,41 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    private static List<Information> mock() {
-        List<Information> data = new ArrayList<>();
+    private static List<RecordInformation> mock() {
+        List<RecordInformation> data = new ArrayList<>();
         int img = R.drawable.ic_account_circle_white_48dp;
         Calendar cal = Calendar.getInstance();
         cal.clear();
 
         cal.set(2015, 3, 3);
-        data.add(new RecordInformation(img, "Software livre é para quem tem tempo livre", null, "carlosh", cal.getTime()));
+//        data.add(new RecordInformation(img, "Software livre é para quem tem tempo livre", null, "carlosh", cal.getTime()));
+        data.add(new RecordInformation(img, "Software livre é para quem tem tempo livre", null, "carlosh"));
 
         cal.set(2015, 7, 18);
-        data.add(new RecordInformation(img, "O que a gente não faz por hora extra?", null, "dmenon", cal.getTime()));
+//        data.add(new RecordInformation(img, "O que a gente não faz por hora extra?", null, "dmenon", cal.getTime()));
+        data.add(new RecordInformation(img, "O que a gente não faz por hora extra?", null, "dmenon"));
 
         cal.set(2016, 1, 2);
-        data.add(new RecordInformation(img, "Estava mijando pensando em você", "Falando com o dmenon durante o almoço sobre a pedra no rim", "murilop", cal.getTime()));
+//        data.add(new RecordInformation(img, "Estava mijando pensando em você", "Falando com o dmenon durante o almoço sobre a pedra no rim", "murilop", cal.getTime()));
+        data.add(new RecordInformation(img, "Estava mijando pensando em você", "Falando com o dmenon durante o almoço sobre a pedra no rim", "murilop"));
 
         cal.set(2016, 7, 31);
-        data.add(new RecordInformation(img, "Sim, não só dei, como até amassou. Tive que trocar o portão.", "Quando o lmoretti perguntou se ele já havia dado ré sem dó de si", "alans", cal.getTime()));
+//        data.add(new RecordInformation(img, "Sim, não só dei, como até amassou. Tive que trocar o portão.", "Quando o lmoretti perguntou se ele já havia dado ré sem dó de si", "alans", cal.getTime()));
+        data.add(new RecordInformation(img, "kra", "Quando o lmoretti perguntou se ele já havia dado ré sem dó de si", "alans"));
 
         cal.set(2015, 8, 18);
-        data.add(new RecordInformation(img, "O bom senso que é difíce", "Antes de comer absurdo no pesqueiro do rolinha", "rmariano", cal.getTime()));
+//        data.add(new RecordInformation(img, "O bom senso que é difíce", "Antes de comer absurdo no pesqueiro do rolinha", "rmariano", cal.getTime()));
+        data.add(new RecordInformation(img, "O bom senso que é difíce", "Antes de comer absurdo no pesqueiro do rolinha", "rmariano"));
 
         return data;
     }
 
     // TODO remove it
-    public static final List<Information> RECORDS = new ArrayList() {{
+    public static final List<RecordInformation> RECORDS = new ArrayList() {{
         addAll(mock());
     }};
 
     private class CardClickListener implements CardViewAdapter.onClickListener {
-
-        Fragment parent;
-
-        public CardClickListener(final Fragment parent) {
-            this.parent = parent;
-        }
 
         @Override
         public void onClick(final int id) {
@@ -102,7 +111,7 @@ public class MainFragment extends Fragment {
             detailFragment.setArguments(bundle);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                parent.setExitTransition(new Slide(Gravity.TOP));
+                MainFragment.this.setExitTransition(new Slide(Gravity.TOP));
         }
     }
 }

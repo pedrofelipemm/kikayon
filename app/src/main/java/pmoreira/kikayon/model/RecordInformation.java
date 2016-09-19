@@ -2,19 +2,26 @@ package pmoreira.kikayon.model;
 
 import android.support.annotation.Nullable;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.firebase.client.ServerValue;
 
 public class RecordInformation extends Information {
 
     private String observation;
     private String login;
-    private Date date;
 
-    public RecordInformation(final int imageId, final String description, @Nullable final String observation, final String login, final Date date) {
+    @JsonProperty
+    private Object lastChange;
+
+    public RecordInformation() {
+    }
+
+    public RecordInformation(final int imageId, final String description, @Nullable final String observation, final String login) {
         super(imageId, description);
         this.observation = observation;
         this.login = login;
-        this.date = date;
+        lastChange = ServerValue.TIMESTAMP;
     }
 
     public String getObservation() {
@@ -25,7 +32,8 @@ public class RecordInformation extends Information {
         return login;
     }
 
-    public Date getDate() {
-        return date;
+    @JsonIgnore
+    public Long getLastChangeLong() {
+        return (Long) lastChange;
     }
 }

@@ -8,13 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.Information;
-import pmoreira.kikayon.model.RecordInformation;
 
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
 
@@ -52,14 +49,15 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         image.setImageDrawable(cardView.getResources().getDrawable(data.get(position).getImageId()));
         image.setContentDescription(current.getDescription());
 
-        if (current instanceof RecordInformation) {
-            Date date = ((RecordInformation) current).getDate();
-            String login = ((RecordInformation) current).getLogin();
-            String authorDate = String.format("(%s, %s)",login ,new SimpleDateFormat("yyyy").format(date));
-
-            TextView dateTextView = (TextView) cardView.findViewById(R.id.author_date);
-            dateTextView.setText(authorDate);
-        }
+        // TODO
+        //        if (current instanceof RecordInformation) {
+        //            Date date = ((RecordInformation) current).getDate();
+        //            String login = ((RecordInformation) current).getLogin();
+        //            String authorDate = String.format("(%s, %s)",login ,new SimpleDateFormat("yyyy").format(date));
+        //
+        //            TextView dateTextView = (TextView) cardView.findViewById(R.id.author_date);
+        //            dateTextView.setText(authorDate);
+        //        }
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
@@ -101,9 +102,17 @@ public class LoginActivity extends AppCompatActivity {
 
         googleApiClient = new GoogleApiClient
                 .Builder(this)
+                .enableAutoManage(this, new onConnectionFailedListener())
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .build();
 
         googleApiClient.connect();
+    }
+    
+    private class onConnectionFailedListener implements GoogleApiClient.OnConnectionFailedListener {
+        @Override
+        public void onConnectionFailed(final ConnectionResult connectionResult) {
+            // TODO: 17/09/16  
+        }
     }
 }

@@ -32,8 +32,9 @@ public class RecordDetailFragment extends Fragment {
         TextView observationTextView = (TextView) view.findViewById(R.id.observation);
         observationTextView.setText(record.getObservation());
 
-        TextView dateTextView = (TextView) view.findViewById(R.id.date);
-        dateTextView.setText(new SimpleDateFormat("dd/MM/yyyy").format(record.getDate()));
+        //TODO
+        //        TextView dateTextView = (TextView) view.findViewById(R.id.date);
+        //        dateTextView.setText(new SimpleDateFormat("dd/MM/yyyy").format(record.getDate()));
 
         return view;
     }

@@ -13,12 +13,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.apache.commons.lang3.StringUtils;
+import com.firebase.client.Firebase;
 
-import java.util.Date;
+import org.apache.commons.lang3.StringUtils;
 
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
+import pmoreira.kikayon.utils.Constants;
 
 public class RegisterRecordFragment extends Fragment {
 
@@ -53,12 +54,22 @@ public class RegisterRecordFragment extends Fragment {
                 return;
             }
 
-            MainFragment.RECORDS.add(0, new RecordInformation(
-                    R.drawable.ic_account_circle_white_48dp,
+// TODO
+//            MainFragment.RECORDS.add(0, new RecordInformation(
+//                    R.drawable.ic_account_circle_white_48dp,
+//                    descriptionEditText.getText().toString(),
+//                    observationEditText.getText().toString(),
+//                    loginSpinner.getSelectedItem().toString(),
+//                    new Date()));
+
+            RecordInformation record = new RecordInformation(R.drawable.ic_account_circle_white_48dp,
                     descriptionEditText.getText().toString(),
                     observationEditText.getText().toString(),
-                    loginSpinner.getSelectedItem().toString(),
-                    new Date()));
+                    loginSpinner.getSelectedItem().toString());
+
+            new Firebase(Constants.FIREBASE_RECORDS_URL)
+                    .push()
+                    .setValue(record);
 
             loginSpinner.setSelection(0);
             descriptionEditText.setText("");
