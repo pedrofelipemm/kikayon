@@ -1,16 +1,16 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/ScrollView01"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+    android:id="@+id/ScrollView01"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto"
-                  xmlns:tools="http://schemas.android.com/tools"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical"
-                  tools:context="pmoreira.kikayon.view.fragment.RegisterRecordFragment">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="pmoreira.kikayon.view.fragment.RegisterRecordFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 app:ms_floatingLabelText="login"
                 app:ms_highlightColor="@color/accent"
                 app:ms_hint="Login"
-                app:ms_multiline="false"/>
+                app:ms_multiline="false" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                     android:id="@+id/input_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Phrase or thought"/>
+                    android:hint="Phrase or thought" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -55,7 +55,7 @@
                     android:id="@+id/input_obs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Observation"/>
+                    android:hint="Observation" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatButton
@@ -67,7 +67,7 @@
                 android:background="@color/accent"
                 android:padding="12dp"
                 android:text="Add"
-                android:textColor="#FFF"/>
+                android:textColor="#FFF" />
 
         </LinearLayout>
     </LinearLayout>

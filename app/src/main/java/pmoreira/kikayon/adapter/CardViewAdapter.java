@@ -46,18 +46,8 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         description.setText(current.getDescription());
 
         ImageView image = (ImageView) cardView.findViewById(R.id.image);
-        image.setImageDrawable(cardView.getResources().getDrawable(data.get(position).getImageId()));
+        image.setImageDrawable(cardView.getResources().getDrawable(current.getImageId()));
         image.setContentDescription(current.getDescription());
-
-        // TODO
-        //        if (current instanceof RecordInformation) {
-        //            Date date = ((RecordInformation) current).getDate();
-        //            String login = ((RecordInformation) current).getLogin();
-        //            String authorDate = String.format("(%s, %s)",login ,new SimpleDateFormat("yyyy").format(date));
-        //
-        //            TextView dateTextView = (TextView) cardView.findViewById(R.id.author_date);
-        //            dateTextView.setText(authorDate);
-        //        }
     }
 
     @Override

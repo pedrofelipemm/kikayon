@@ -54,22 +54,15 @@ public class RegisterRecordFragment extends Fragment {
                 return;
             }
 
-// TODO
-//            MainFragment.RECORDS.add(0, new RecordInformation(
-//                    R.drawable.ic_account_circle_white_48dp,
-//                    descriptionEditText.getText().toString(),
-//                    observationEditText.getText().toString(),
-//                    loginSpinner.getSelectedItem().toString(),
-//                    new Date()));
+            Firebase firebase = new Firebase(Constants.FIREBASE_RECORDS_URL).push();
 
-            RecordInformation record = new RecordInformation(R.drawable.ic_account_circle_white_48dp,
-                    descriptionEditText.getText().toString(),
-                    observationEditText.getText().toString(),
+            RecordInformation record = new RecordInformation(firebase.getKey(),
+                    R.drawable.ic_account_circle_white_48dp,
+                    descriptionEditText.getText().toString().trim(),
+                    observationEditText.getText().toString().trim(),
                     loginSpinner.getSelectedItem().toString());
 
-            new Firebase(Constants.FIREBASE_RECORDS_URL)
-                    .push()
-                    .setValue(record);
+            firebase.setValue(record);
 
             loginSpinner.setSelection(0);
             descriptionEditText.setText("");

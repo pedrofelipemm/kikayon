@@ -3,24 +3,27 @@ package pmoreira.kikayon.adapter;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
-import com.firebase.client.Query;
 import com.firebase.ui.FirebaseRecyclerViewAdapter;
+
+import java.text.SimpleDateFormat;
 
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
+import pmoreira.kikayon.utils.DrawableUtils;
 
 public class CardViewFirebaseAdapter extends FirebaseRecyclerViewAdapter<RecordInformation, CardViewFirebaseAdapter.ViewHolder> {
 
-    public CardViewFirebaseAdapter(final Class modelClass, final int modelLayout, final Class viewHolderClass, final Query ref) {
-        super(modelClass, modelLayout, viewHolderClass, ref);
-    }
+    private OnClickListener clickListener;
 
-    public CardViewFirebaseAdapter(final Class modelClass, final int modelLayout, final Class viewHolderClass, final Firebase ref) {
+    public CardViewFirebaseAdapter(final Class modelClass, final int modelLayout, final Class viewHolderClass, final Firebase ref, final OnClickListener clickListener) {
         super(modelClass, modelLayout, viewHolderClass, ref);
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -32,8 +35,29 @@ public class CardViewFirebaseAdapter extends FirebaseRecyclerViewAdapter<RecordI
     @Override
     protected void populateViewHolder(final ViewHolder viewHolder, final RecordInformation model, final int position) {
 
-        ((TextView)viewHolder.cardView.findViewById(R.id.description)).setText(model.getDescription());
+        CardView cardView = viewHolder.cardView;
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                clickListener.onClick(model.getId());
+            }
+        });
 
+        TextView description = ((TextView) cardView.findViewById(R.id.description));
+        description.setText(model.getDescription());
+
+        ImageView image = (ImageView) cardView.findViewById(R.id.image);
+        image.setImageDrawable(DrawableUtils.getDrawable(cardView.getContext(), model.getImageId()));
+        image.setContentDescription(model.getDescription());
+
+        if (model instanceof RecordInformation) {
+            String lastChange = new SimpleDateFormat("yyyy").format(model.getLastChangeLong());
+            String login = model.getLogin();
+            String authorDate = String.format("(%s, %s)", login, lastChange);
+
+            TextView dateTextView = (TextView) cardView.findViewById(R.id.author_date);
+            dateTextView.setText(authorDate);
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -44,6 +68,9 @@ public class CardViewFirebaseAdapter extends FirebaseRecyclerViewAdapter<RecordI
             super(cardView);
             this.cardView = cardView;
         }
+    }
 
+    public interface OnClickListener {
+        void onClick(final String id);
     }
 }

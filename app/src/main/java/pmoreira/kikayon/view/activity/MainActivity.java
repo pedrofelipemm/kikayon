@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
@@ -39,18 +41,21 @@ public class MainActivity extends AppCompatActivity {
         drawer.setUp((DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
         GoogleSignInAccount result = getIntent().getParcelableExtra(LoginActivity.EXTRA_PROFILE);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        //TODO
+        if (result != null) {
+            TextView name = (TextView) findViewById(R.id.profile_name);
+            name.setText(result.getDisplayName());
 
-        TextView name = (TextView) findViewById(R.id.profile_name);
-        name.setText(result.getDisplayName());
+            TextView email = (TextView) findViewById(R.id.profile_email);
+            email.setText(result.getEmail());
 
-        TextView email = (TextView) findViewById(R.id.profile_email);
-        email.setText(result.getEmail());
-
-        ImageView profilePicture = (ImageView) findViewById(R.id.profile_picture);
-        Picasso.with(this)
-                .load(result.getPhotoUrl())
-                .transform(new CropCircleTransformation())
-                .into(profilePicture);
+            ImageView profilePicture = (ImageView) findViewById(R.id.profile_picture);
+            Picasso.with(this)
+                    .load(result.getPhotoUrl())
+                    .transform(new CropCircleTransformation())
+                    .into(profilePicture);
+        }
     }
 
     @Override
