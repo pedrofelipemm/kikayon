@@ -4,18 +4,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
+import pmoreira.kikayon.BuildConfig;
 import pmoreira.kikayon.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,12 +38,27 @@ public class LoginActivity extends AppCompatActivity {
 
     private GoogleApiClient googleApiClient;
 
+    private FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener authListener;
+
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         setUp();
+
+        auth = FirebaseAuth.getInstance();
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                } else {
+                }
+            }
+        };
 
         OptionalPendingResult<GoogleSignInResult> optionalResult = Auth.GoogleSignInApi.silentSignIn(googleApiClient);
         if (optionalResult.isDone()) {
@@ -48,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
+
+
     }
 
     @Override
@@ -65,8 +92,10 @@ public class LoginActivity extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm.getActiveNetworkInfo() == null) {
             Toast.makeText(this, "No internet connection available!", Toast.LENGTH_SHORT).show();
-        } else if (result != null) {
+        } else if (result.isSuccess()) {
             if (isValid(result)) {
+                firebaseAuthWithGoogle(result.getSignInAccount());
+
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(LoginActivity.EXTRA_PROFILE, result.getSignInAccount());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -96,19 +125,47 @@ public class LoginActivity extends AppCompatActivity {
     private void setUp() {
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(BuildConfig.FIREBASE_TOKEN_ID)
                 .requestEmail()
                 .requestProfile()
                 .build();
 
         googleApiClient = new GoogleApiClient
                 .Builder(this)
-                .enableAutoManage(this, new onConnectionFailedListener())
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .build();
 
         googleApiClient.connect();
     }
-    
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (authListener != null) {
+            auth.removeAuthStateListener(authListener);
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
     private class onConnectionFailedListener implements GoogleApiClient.OnConnectionFailedListener {
         @Override
         public void onConnectionFailed(final ConnectionResult connectionResult) {
