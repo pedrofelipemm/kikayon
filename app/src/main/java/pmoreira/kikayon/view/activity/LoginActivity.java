@@ -13,7 +13,6 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
@@ -22,7 +21,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import pmoreira.kikayon.BuildConfig;
@@ -39,8 +37,6 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleApiClient googleApiClient;
 
     private FirebaseAuth auth;
-    private FirebaseAuth.AuthStateListener authListener;
-
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -50,15 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         setUp();
 
         auth = FirebaseAuth.getInstance();
-        authListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                } else {
-                }
-            }
-        };
 
         OptionalPendingResult<GoogleSignInResult> optionalResult = Auth.GoogleSignInApi.silentSignIn(googleApiClient);
         if (optionalResult.isDone()) {
@@ -73,8 +60,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
-
-
     }
 
     @Override
@@ -119,7 +104,8 @@ public class LoginActivity extends AppCompatActivity {
         String email = result.getSignInAccount().getEmail();
         String domain = email.substring(email.indexOf("@"));
 
-        return VALID_DOMAIN.equals(domain);
+//        return VALID_DOMAIN.equals(domain);
+        return true;
     }
 
     private void setUp() {
@@ -138,38 +124,16 @@ public class LoginActivity extends AppCompatActivity {
         googleApiClient.connect();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        auth.addAuthStateListener(authListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (authListener != null) {
-            auth.removeAuthStateListener(authListener);
-        }
-    }
-
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-    }
-
-    private class onConnectionFailedListener implements GoogleApiClient.OnConnectionFailedListener {
-        @Override
-        public void onConnectionFailed(final ConnectionResult connectionResult) {
-            // TODO: 17/09/16  
-        }
     }
 }

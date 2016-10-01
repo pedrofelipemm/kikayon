@@ -39,7 +39,7 @@ public class CardViewFirebaseAdapter extends FirebaseRecyclerViewAdapter<RecordI
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                clickListener.onClick(model.getId());
+                clickListener.onClick(getRef(position).getKey());
             }
         });
 

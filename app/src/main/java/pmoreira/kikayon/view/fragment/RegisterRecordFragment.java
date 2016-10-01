@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
@@ -54,15 +55,15 @@ public class RegisterRecordFragment extends Fragment {
                 return;
             }
 
-            Firebase firebase = new Firebase(Constants.FIREBASE_RECORDS_URL).push();
-
-            RecordInformation record = new RecordInformation(firebase.getKey(),
+            RecordInformation record = new RecordInformation(
                     R.drawable.ic_account_circle_white_48dp,
                     descriptionEditText.getText().toString().trim(),
                     observationEditText.getText().toString().trim(),
                     loginSpinner.getSelectedItem().toString());
 
-            firebase.setValue(record);
+            new Firebase(Constants.FIREBASE_RECORDS_URL)
+                    .push()
+                    .setValue(record);
 
             loginSpinner.setSelection(0);
             descriptionEditText.setText("");
@@ -73,17 +74,24 @@ public class RegisterRecordFragment extends Fragment {
 
         private boolean isValid(final Spinner loginSpinner, final EditText descriptionEditText, final EditText observationEditText) {
             boolean isValid = true;
+            String msg;
 
             if (LOGIN_SPINNER_DEFAULT_VALUE.equals(loginSpinner.getSelectedItem())) {
-                Toast.makeText(getActivity(), R.string.msg_select_one_option, Toast.LENGTH_SHORT).show();
+                msg = getString(R.string.msg_select_one_option);
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                ((TextView) loginSpinner.getSelectedView()).setError(msg);
                 loginSpinner.requestFocus();
                 isValid = false;
             } else if (StringUtils.isBlank(descriptionEditText.getText())) {
-                Toast.makeText(getActivity(), getString(R.string.msg_fill_field, "Phrase or thought"), Toast.LENGTH_SHORT).show();
+                msg = getString(R.string.msg_fill_field, "Phrase or thought");
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                descriptionEditText.setError(msg);
                 descriptionEditText.requestFocus();
                 isValid = false;
             } else if (StringUtils.isBlank(observationEditText.getText())) {
-                Toast.makeText(getActivity(), getString(R.string.msg_fill_field, "Observation"), Toast.LENGTH_SHORT).show();
+                msg = getString(R.string.msg_fill_field, "Observation");
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                observationEditText.setError(msg);
                 observationEditText.requestFocus();
                 isValid = false;
             }

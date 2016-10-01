@@ -8,7 +8,7 @@ import com.firebase.client.ServerValue;
 
 public class RecordInformation extends Information {
 
-    private String id;
+//    private String id;
     private String observation;
     private String login;
 
@@ -18,17 +18,19 @@ public class RecordInformation extends Information {
     public RecordInformation() {
     }
 
-    public RecordInformation(final String id, final int imageId, final String description, @Nullable final String observation, final String login) {
+    public RecordInformation(
+//            final String id,
+                             final int imageId, final String description, @Nullable final String observation, final String login) {
         super(imageId, description);
-        this.id = id;
+//        this.id = id;
         this.observation = observation;
         this.login = login;
         lastChange = ServerValue.TIMESTAMP;
     }
 
-    public String getId() {
-        return id;
-    }
+//    public String getId() {
+//        return id;
+//    }
 
     public String getObservation() {
         return observation;

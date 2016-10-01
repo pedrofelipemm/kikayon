@@ -71,23 +71,23 @@ public class MainFragment extends Fragment {
 
         cal.set(2015, 3, 3);
 //        data.add(new RecordInformation(img, "Software livre é para quem tem tempo livre", null, "carlosh", cal.getTime()));
-        data.add(new RecordInformation("1", img, "Software livre é para quem tem tempo livre", null, "carlosh"));
+        data.add(new RecordInformation( img, "Software livre é para quem tem tempo livre", null, "carlosh"));
 
         cal.set(2015, 7, 18);
 //        data.add(new RecordInformation(img, "O que a gente não faz por hora extra?", null, "dmenon", cal.getTime()));
-        data.add(new RecordInformation("2", img, "O que a gente não faz por hora extra?", null, "dmenon"));
+        data.add(new RecordInformation( img, "O que a gente não faz por hora extra?", null, "dmenon"));
 
         cal.set(2016, 1, 2);
 //        data.add(new RecordInformation(img, "Estava mijando pensando em você", "Falando com o dmenon durante o almoço sobre a pedra no rim", "murilop", cal.getTime()));
-        data.add(new RecordInformation("3", img, "Estava mijando pensando em você", "Falando com o dmenon durante o almoço sobre a pedra no rim", "murilop"));
+        data.add(new RecordInformation( img, "Estava mijando pensando em você", "Falando com o dmenon durante o almoço sobre a pedra no rim", "murilop"));
 
         cal.set(2016, 7, 31);
 //        data.add(new RecordInformation(img, "Sim, não só dei, como até amassou. Tive que trocar o portão.", "Quando o lmoretti perguntou se ele já havia dado ré sem dó de si", "alans", cal.getTime()));
-        data.add(new RecordInformation("4", img, "kra", "Quando o lmoretti perguntou se ele já havia dado ré sem dó de si", "alans"));
+        data.add(new RecordInformation( img, "kra", "Quando o lmoretti perguntou se ele já havia dado ré sem dó de si", "alans"));
 
         cal.set(2015, 8, 18);
 //        data.add(new RecordInformation(img, "O bom senso que é difíce", "Antes de comer absurdo no pesqueiro do rolinha", "rmariano", cal.getTime()));
-        data.add(new RecordInformation("4", img, "O bom senso que é difíce", "Antes de comer absurdo no pesqueiro do rolinha", "rmariano"));
+        data.add(new RecordInformation( img, "O bom senso que é difíce", "Antes de comer absurdo no pesqueiro do rolinha", "rmariano"));
 
         return data;
     }

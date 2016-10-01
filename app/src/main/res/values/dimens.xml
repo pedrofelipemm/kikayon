@@ -7,4 +7,6 @@
     <dimen name="app_bar_top_padding">24dp</dimen>
     <dimen name="drawer_image_margin_top">12dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="fragment_register_login_size">75dp</dimen>
 </resources>
