@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.firebase.client.Firebase;
-import com.firebase.ui.FirebaseRecyclerViewAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.Query;
 
 import java.text.SimpleDateFormat;
 
@@ -17,11 +17,13 @@ import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
 import pmoreira.kikayon.utils.DrawableUtils;
 
-public class CardViewFirebaseAdapter extends FirebaseRecyclerViewAdapter<RecordInformation, CardViewFirebaseAdapter.ViewHolder> {
+public class CardViewFirebaseAdapter extends FirebaseRecyclerAdapter<RecordInformation, CardViewFirebaseAdapter.ViewHolder> {
 
     private OnClickListener clickListener;
 
-    public CardViewFirebaseAdapter(final Class modelClass, final int modelLayout, final Class viewHolderClass, final Firebase ref, final OnClickListener clickListener) {
+    public CardViewFirebaseAdapter(final Class<RecordInformation> modelClass, final int modelLayout,
+                                   final Class<ViewHolder> viewHolderClass, final Query ref,
+                                   final OnClickListener clickListener) {
         super(modelClass, modelLayout, viewHolderClass, ref);
         this.clickListener = clickListener;
     }

@@ -1,7 +1,5 @@
 package pmoreira.kikayon.model;
 
-import java.util.Date;
-
 public class Information {
 
     private int imageId;

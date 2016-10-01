@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.firebase.client.Firebase;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +22,6 @@ import java.util.List;
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.adapter.CardViewFirebaseAdapter;
 import pmoreira.kikayon.model.RecordInformation;
-import pmoreira.kikayon.utils.Constants;
 import pmoreira.kikayon.utils.FragmentUtils;
 
 public class MainFragment extends Fragment {
@@ -43,7 +42,7 @@ public class MainFragment extends Fragment {
                 RecordInformation.class,
                 R.layout.fragment_main,
                 CardViewFirebaseAdapter.ViewHolder.class,
-                new Firebase(Constants.FIREBASE_RECORDS_URL),
+                FirebaseDatabase.getInstance().getReference(),
                 new CardClickListener());
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
@@ -113,7 +112,16 @@ public class MainFragment extends Fragment {
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 //                MainFragment.this.setExitTransition(new Slide(Gravity.TOP));
 //        }
-//    }
+//
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //todo
+        // destroy recycler
+        // remove listeners
+    }
 
     private class CardClickListener implements CardViewFirebaseAdapter.OnClickListener {
 

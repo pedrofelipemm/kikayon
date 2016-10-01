@@ -1,6 +1,6 @@
 package pmoreira.kikayon.view.fragment;
 
-
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,19 +8,19 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
-import pmoreira.kikayon.utils.Constants;
 
 public class RegisterRecordFragment extends Fragment {
 
@@ -40,7 +40,29 @@ public class RegisterRecordFragment extends Fragment {
         return view;
     }
 
-    class onClickNewRecord implements View.OnClickListener {
+    private String[] mockLogin() {
+        return new String[]{
+                "alans",
+                "fmaldonado",
+                "pedrov",
+                "pmoreira",
+                "rmariano"
+        };
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    }
+
+    private class onClickNewRecord implements View.OnClickListener {
 
         private static final String LOGIN_SPINNER_DEFAULT_VALUE = "Login";
 
@@ -61,7 +83,7 @@ public class RegisterRecordFragment extends Fragment {
                     observationEditText.getText().toString().trim(),
                     loginSpinner.getSelectedItem().toString());
 
-            new Firebase(Constants.FIREBASE_RECORDS_URL)
+            FirebaseDatabase.getInstance().getReference()
                     .push()
                     .setValue(record);
 
@@ -70,6 +92,12 @@ public class RegisterRecordFragment extends Fragment {
             observationEditText.setText("");
 
             Toast.makeText(getActivity(), R.string.msg_item_add_success, Toast.LENGTH_SHORT).show();
+
+            View view = getActivity().getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
 
         private boolean isValid(final Spinner loginSpinner, final EditText descriptionEditText, final EditText observationEditText) {
@@ -98,27 +126,5 @@ public class RegisterRecordFragment extends Fragment {
 
             return isValid;
         }
-    }
-
-    private String[] mockLogin() {
-        return new String[]{
-                "alans",
-                "fmaldonado",
-                "pedrov",
-                "pmoreira",
-                "rmariano"
-        };
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 }
