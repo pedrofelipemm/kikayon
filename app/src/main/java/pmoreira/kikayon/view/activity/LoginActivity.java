@@ -17,6 +17,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -33,11 +35,10 @@ public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private static final String VALID_DOMAIN = "@ciandt.com";
 
-    public static final String EXTRA_PROFILE = "EXTRA_PROFILE";
-
     private GoogleApiClient googleApiClient;
 
     private FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener authListener;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -45,8 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         setUp();
-
-        auth = FirebaseAuth.getInstance();
 
         OptionalPendingResult<GoogleSignInResult> optionalResult = Auth.GoogleSignInApi.silentSignIn(googleApiClient);
         if (optionalResult.isDone()) {
@@ -57,10 +56,23 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+                signIn();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (authListener != null) {
+            auth.removeAuthStateListener(authListener);
+        }
     }
 
     @Override
@@ -81,15 +93,9 @@ public class LoginActivity extends AppCompatActivity {
         } else if (result.isSuccess()) {
             if (isValid(result)) {
                 firebaseAuthWithGoogle(result.getSignInAccount());
-
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra(LoginActivity.EXTRA_PROFILE, result.getSignInAccount());
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
             } else {
                 Toast.makeText(this, "Please provide a valid ciandt mail", Toast.LENGTH_LONG).show();
-                Auth.GoogleSignInApi.signOut(googleApiClient);
+                signOut();
             }
         } else {
             Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
@@ -105,8 +111,8 @@ public class LoginActivity extends AppCompatActivity {
         String email = result.getSignInAccount().getEmail();
         String domain = email.substring(email.indexOf("@"));
 
-//        return VALID_DOMAIN.equals(domain);
-        return true;
+        return VALID_DOMAIN.equals(domain);
+//        return true;
     }
 
     private void setUp() {
@@ -129,6 +135,38 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         googleApiClient.connect();
+
+        auth = FirebaseAuth.getInstance();
+
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() != null) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        };
+
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void signOut() {
+        auth.signOut();
+        Auth.GoogleSignInApi
+                .signOut(googleApiClient)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(final Status status) {
+                        signIn();
+                    }
+                });
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {

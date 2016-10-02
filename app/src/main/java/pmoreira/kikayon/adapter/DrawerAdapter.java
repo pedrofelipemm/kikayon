@@ -14,26 +14,26 @@ import java.util.List;
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.Information;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerViewHolder> {
 
     private LayoutInflater inflater;
 
     private List<Information> data = Collections.emptyList();
 
-    public MyAdapter(final Context context, final List<Information> data) {
+    public DrawerAdapter(final Context context, final List<Information> data) {
         inflater = LayoutInflater.from(context);
         this.data = data;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public DrawerViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View view = inflater.inflate(R.layout.row, parent, false);
-        MyViewHolder holder = new MyViewHolder(view);
+        DrawerViewHolder holder = new DrawerViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final DrawerViewHolder holder, final int position) {
 
         Information info = data.get(position);
 
@@ -46,12 +46,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return data.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class DrawerViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView rowIcon;
         private TextView rowtext;
 
-        public MyViewHolder(final View view) {
+        public DrawerViewHolder(final View view) {
             super(view);
 
             rowIcon = (ImageView) view.findViewById(R.id.row_icon);

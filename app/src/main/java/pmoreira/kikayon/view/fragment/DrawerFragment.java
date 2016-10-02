@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import pmoreira.kikayon.adapter.MyAdapter;
 import pmoreira.kikayon.R;
+import pmoreira.kikayon.adapter.DrawerAdapter;
 import pmoreira.kikayon.model.Information;
 
 public class DrawerFragment extends Fragment {
@@ -25,7 +28,7 @@ public class DrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
 
-    private MyAdapter adapter;
+    private DrawerAdapter adapter;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class DrawerFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-        adapter = new MyAdapter(getActivity(), getData());
+        adapter = new DrawerAdapter(getActivity(), getData());
 
         View view = inflater.inflate(R.layout.fragment_drawer, container, false);
 
@@ -85,6 +88,13 @@ public class DrawerFragment extends Fragment {
         List<Information> data = new ArrayList<>();
         data.add(new Information(R.drawable.ic_account_circle_black_48dp, "My records"));
         data.add(new Information(R.drawable.ic_settings_black_48dp, "Settings"));
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser.getEmail().equals("pmoreira@ciandt.com")) {
+            data.add(new Information(R.drawable.ic_settings_black_48dp, "Insert Data"));
+            data.add(new Information(R.drawable.ic_settings_black_48dp, "Wipe Data"));
+        }
+
         return data;
     }
 }

@@ -21,26 +21,38 @@ import org.apache.commons.lang3.StringUtils;
 
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
+import pmoreira.kikayon.utils.Constants;
 
 public class RegisterRecordFragment extends Fragment {
 
+    private Spinner loginSpinner;
+    private EditText descriptionEditText;
+    private EditText observationEditText;
+    private EditText dateEditText;
+    private AppCompatButton newRecordButton;
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_register_record, container, false);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, mockLogin());
-
-        Spinner login = (Spinner) view.findViewById(R.id.input_login);
-        login.setAdapter(adapter);
-
-        AppCompatButton newButton = (AppCompatButton) view.findViewById(R.id.btn_new_record);
-        newButton.setOnClickListener(new onClickNewRecord());
+        initializeView(view);
 
         return view;
     }
 
-    private String[] mockLogin() {
+    private void initializeView(final View view) {
+        loginSpinner = (Spinner) view.findViewById(R.id.input_login);
+        loginSpinner.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, mockLogin()));
+
+        descriptionEditText = (EditText) view.findViewById(R.id.input_description);
+        observationEditText = (EditText) view.findViewById(R.id.input_obs);
+        dateEditText = (EditText) view.findViewById(R.id.input_date);
+
+        newRecordButton = (AppCompatButton) view.findViewById(R.id.btn_new_record);
+        newRecordButton.setOnClickListener(new onClickNewRecord());
+    }
+
+    private String[] mockLogin() { //TODO DELETE
         return new String[]{
                 "alans",
                 "fmaldonado",
@@ -51,13 +63,13 @@ public class RegisterRecordFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
+    public void onResume() { //TODO DELETE
         super.onResume();
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
     }
 
     @Override
-    public void onPause() {
+    public void onPause() { //TODO DELETE
         super.onPause();
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
@@ -69,10 +81,6 @@ public class RegisterRecordFragment extends Fragment {
         @Override
         public void onClick(final View v) {
 
-            Spinner loginSpinner = (Spinner) getActivity().findViewById(R.id.input_login);
-            EditText descriptionEditText = (EditText) getActivity().findViewById(R.id.input_description);
-            EditText observationEditText = (EditText) getActivity().findViewById(R.id.input_obs);
-
             if (!isValid(loginSpinner, descriptionEditText, observationEditText)) {
                 return;
             }
@@ -83,7 +91,7 @@ public class RegisterRecordFragment extends Fragment {
                     observationEditText.getText().toString().trim(),
                     loginSpinner.getSelectedItem().toString());
 
-            FirebaseDatabase.getInstance().getReference()
+            FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION)
                     .push()
                     .setValue(record);
 
@@ -100,6 +108,7 @@ public class RegisterRecordFragment extends Fragment {
             }
         }
 
+        //TODO REFACTOR
         private boolean isValid(final Spinner loginSpinner, final EditText descriptionEditText, final EditText observationEditText) {
             boolean isValid = true;
             String msg;

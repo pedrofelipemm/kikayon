@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -18,7 +17,6 @@ import com.squareup.picasso.Picasso;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.utils.FragmentUtils;
-import pmoreira.kikayon.view.activity.LoginActivity;
 import pmoreira.kikayon.view.fragment.DrawerFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,19 +38,18 @@ public class MainActivity extends AppCompatActivity {
         DrawerFragment drawer = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.drawer_fragment);
         drawer.setUp((DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
-        GoogleSignInAccount result = getIntent().getParcelableExtra(LoginActivity.EXTRA_PROFILE);
+//        GoogleSignInAccount result = getIntent().getParcelableExtra(LoginActivity.EXTRA_PROFILE);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        //TODO
-        if (result != null) {
+        if (currentUser != null) {
             TextView name = (TextView) findViewById(R.id.profile_name);
-            name.setText(result.getDisplayName());
+            name.setText(currentUser.getDisplayName());
 
             TextView email = (TextView) findViewById(R.id.profile_email);
-            email.setText(result.getEmail());
+            email.setText(currentUser.getEmail());
 
             ImageView profilePicture = (ImageView) findViewById(R.id.profile_picture);
             Picasso.with(this)
-                    .load(result.getPhotoUrl())
+                    .load(currentUser.getPhotoUrl())
                     .transform(new CropCircleTransformation())
                     .into(profilePicture);
         }
