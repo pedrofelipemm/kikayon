@@ -23,6 +23,12 @@ public class RecordInformation extends Information {
         lastChange = ServerValue.TIMESTAMP;
     }
 
+    public RecordInformation(final int imageId, final String description, @Nullable final String observation, final String login, final Long lastChange) {
+        this(imageId, description, observation, login);
+        if (lastChange != null)
+            this.lastChange = lastChange;
+    }
+
     public String getObservation() {
         return observation;
     }

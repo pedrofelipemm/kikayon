@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        // getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         setUpDrawer(toolbar);
         FragmentUtils.selectFragment(getSupportFragmentManager(), FragmentUtils.MAIN);
@@ -38,21 +37,18 @@ public class MainActivity extends AppCompatActivity {
         DrawerFragment drawer = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.drawer_fragment);
         drawer.setUp((DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
-//        GoogleSignInAccount result = getIntent().getParcelableExtra(LoginActivity.EXTRA_PROFILE);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            TextView name = (TextView) findViewById(R.id.profile_name);
-            name.setText(currentUser.getDisplayName());
+        TextView name = (TextView) findViewById(R.id.profile_name);
+        name.setText(currentUser.getDisplayName());
 
-            TextView email = (TextView) findViewById(R.id.profile_email);
-            email.setText(currentUser.getEmail());
+        TextView email = (TextView) findViewById(R.id.profile_email);
+        email.setText(currentUser.getEmail());
 
-            ImageView profilePicture = (ImageView) findViewById(R.id.profile_picture);
-            Picasso.with(this)
-                    .load(currentUser.getPhotoUrl())
-                    .transform(new CropCircleTransformation())
-                    .into(profilePicture);
-        }
+        ImageView profilePicture = (ImageView) findViewById(R.id.profile_picture);
+        Picasso.with(this)
+                .load(currentUser.getPhotoUrl())
+                .transform(new CropCircleTransformation())
+                .into(profilePicture);
     }
 
     @Override

@@ -58,6 +58,20 @@
                     android:hint="Observation" />
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/input_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="dd/mm/yyyy"
+                    android:focusable="false"/>
+            </android.support.design.widget.TextInputLayout>
+
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_new_record"
                 android:layout_width="match_parent"

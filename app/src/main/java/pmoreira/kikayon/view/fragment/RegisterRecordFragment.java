@@ -1,5 +1,6 @@
 package pmoreira.kikayon.view.fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,9 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
 import pmoreira.kikayon.utils.Constants;
+import pmoreira.kikayon.widget.TimePickerFragment;
 
 public class RegisterRecordFragment extends Fragment {
 
@@ -30,6 +36,8 @@ public class RegisterRecordFragment extends Fragment {
     private EditText observationEditText;
     private EditText dateEditText;
     private AppCompatButton newRecordButton;
+
+    private Long timeInMillis;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -46,10 +54,36 @@ public class RegisterRecordFragment extends Fragment {
 
         descriptionEditText = (EditText) view.findViewById(R.id.input_description);
         observationEditText = (EditText) view.findViewById(R.id.input_obs);
+
         dateEditText = (EditText) view.findViewById(R.id.input_date);
+        dateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                TimePickerFragment timePicker = TimePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(final DatePicker view, final int year, final int month, final int dayOfMonth) {
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(year, month, dayOfMonth);
+
+                        dateEditText.setText(new SimpleDateFormat("dd/MM/yyyy").format(cal.getTime()));
+                        timeInMillis = cal.getTimeInMillis();
+                    }
+                });
+
+                timePicker.show(getFragmentManager(), "TimePicker");
+            }
+        });
 
         newRecordButton = (AppCompatButton) view.findViewById(R.id.btn_new_record);
         newRecordButton.setOnClickListener(new onClickNewRecord());
+    }
+
+    private void resetFields() {
+        loginSpinner.setSelection(0);
+        descriptionEditText.setText("");
+        observationEditText.setText("");
+        dateEditText.setText("dd/mm/yyyy");
+        timeInMillis = null;
     }
 
     private String[] mockLogin() { //TODO DELETE
@@ -89,15 +123,14 @@ public class RegisterRecordFragment extends Fragment {
                     R.drawable.ic_account_circle_white_48dp,
                     descriptionEditText.getText().toString().trim(),
                     observationEditText.getText().toString().trim(),
-                    loginSpinner.getSelectedItem().toString());
+                    loginSpinner.getSelectedItem().toString(),
+                    timeInMillis);
 
             FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION)
                     .push()
                     .setValue(record);
 
-            loginSpinner.setSelection(0);
-            descriptionEditText.setText("");
-            observationEditText.setText("");
+            resetFields();
 
             Toast.makeText(getActivity(), R.string.msg_item_add_success, Toast.LENGTH_SHORT).show();
 

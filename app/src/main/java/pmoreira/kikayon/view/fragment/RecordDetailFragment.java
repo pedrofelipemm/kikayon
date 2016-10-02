@@ -18,6 +18,7 @@ import java.util.Date;
 
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
+import pmoreira.kikayon.utils.Constants;
 
 
 public class RecordDetailFragment extends Fragment {
@@ -58,7 +59,7 @@ public class RecordDetailFragment extends Fragment {
             }
         };
 
-        recordDetail = FirebaseDatabase.getInstance().getReference().child(recordId);
+        recordDetail = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION).child(recordId);
         recordDetail.addValueEventListener(recordDetailListener);
 
         return view;
