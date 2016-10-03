@@ -17,8 +17,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.FirebaseDatabase;
-
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
@@ -27,6 +25,7 @@ import java.util.Calendar;
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
 import pmoreira.kikayon.utils.Constants;
+import pmoreira.kikayon.utils.FirebaseUtils;
 import pmoreira.kikayon.widget.TimePickerFragment;
 
 public class RegisterRecordFragment extends Fragment {
@@ -126,7 +125,7 @@ public class RegisterRecordFragment extends Fragment {
                     loginSpinner.getSelectedItem().toString(),
                     timeInMillis);
 
-            FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION)
+            FirebaseUtils.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION)
                     .push()
                     .setValue(record);
 

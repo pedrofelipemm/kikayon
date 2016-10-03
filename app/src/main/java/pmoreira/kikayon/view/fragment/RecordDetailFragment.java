@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -19,6 +18,7 @@ import java.util.Date;
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
 import pmoreira.kikayon.utils.Constants;
+import pmoreira.kikayon.utils.FirebaseUtils;
 
 
 public class RecordDetailFragment extends Fragment {
@@ -59,7 +59,7 @@ public class RecordDetailFragment extends Fragment {
             }
         };
 
-        recordDetail = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION).child(recordId);
+        recordDetail = FirebaseUtils.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION).child(recordId);
         recordDetail.addValueEventListener(recordDetailListener);
 
         return view;

@@ -13,12 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.database.FirebaseDatabase;
-
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.adapter.CardViewFirebaseAdapter;
 import pmoreira.kikayon.model.RecordInformation;
 import pmoreira.kikayon.utils.Constants;
+import pmoreira.kikayon.utils.FirebaseUtils;
 import pmoreira.kikayon.utils.FragmentUtils;
 
 public class MainFragment extends Fragment {
@@ -39,7 +38,7 @@ public class MainFragment extends Fragment {
                 RecordInformation.class,
                 R.layout.fragment_main,
                 CardViewFirebaseAdapter.ViewHolder.class,
-                FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION),
+                FirebaseUtils.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION),
                 new CardClickListener());
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);

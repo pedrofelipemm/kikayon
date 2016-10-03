@@ -16,7 +16,7 @@ public class AdminTools {
     }
 
     public static void insertData() {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION);
+        DatabaseReference database = FirebaseUtils.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION);
         for (RecordInformation info : RECORDS) {
             database.push().setValue(new RecordInformation(
                     R.drawable.ic_account_circle_white_48dp,
