@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-
+        Log.d("pedro", "mainFragment");
         CardViewFirebaseAdapter cardViewFirebaseAdapter = new CardViewFirebaseAdapter(
                 RecordInformation.class,
                 R.layout.fragment_main,

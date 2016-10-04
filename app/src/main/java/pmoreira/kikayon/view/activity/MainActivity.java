@@ -1,6 +1,7 @@
 package pmoreira.kikayon.view.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,8 +16,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import pmoreira.kikayon.MainPagerFragment;
 import pmoreira.kikayon.R;
-import pmoreira.kikayon.utils.FragmentUtils;
 import pmoreira.kikayon.view.fragment.DrawerFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +31,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         setUpDrawer(toolbar);
-        FragmentUtils.selectFragment(getSupportFragmentManager(), FragmentUtils.MAIN);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container_content, new MainPagerFragment());
+        transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 
     private void setUpDrawer(final Toolbar toolbar) {
