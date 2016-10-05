@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,10 +34,13 @@ public class RegisterRecordFragment extends Fragment {
     private Spinner loginSpinner;
     private EditText descriptionEditText;
     private EditText observationEditText;
+    private RadioButton liveRadio;
+    private RadioButton deadRadio;
     private EditText dateEditText;
     private AppCompatButton newRecordButton;
 
     private Long timeInMillis;
+    private int status = RecordInformation.STATUS_LIVE;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -73,6 +77,23 @@ public class RegisterRecordFragment extends Fragment {
             }
         });
 
+        liveRadio = (RadioButton) view.findViewById(R.id.radio_live);
+        liveRadio.setChecked(true);
+        liveRadio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                status = RecordInformation.STATUS_LIVE;
+            }
+        });
+
+        deadRadio = (RadioButton) view.findViewById(R.id.radio_dead);
+        deadRadio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                status = RecordInformation.STATUS_DEAD;
+            }
+        });
+
         newRecordButton = (AppCompatButton) view.findViewById(R.id.btn_new_record);
         newRecordButton.setOnClickListener(new onClickNewRecord());
     }
@@ -82,6 +103,8 @@ public class RegisterRecordFragment extends Fragment {
         descriptionEditText.setText("");
         observationEditText.setText("");
         dateEditText.setText("dd/mm/yyyy");
+        liveRadio.setChecked(true);
+        status = RecordInformation.STATUS_LIVE;
         timeInMillis = null;
     }
 
@@ -123,9 +146,9 @@ public class RegisterRecordFragment extends Fragment {
                     descriptionEditText.getText().toString().trim(),
                     observationEditText.getText().toString().trim(),
                     loginSpinner.getSelectedItem().toString(),
-                    timeInMillis);
+                    status, timeInMillis);
 
-            FirebaseUtils.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION)
+            FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_RECORDS)
                     .push()
                     .setValue(record);
 

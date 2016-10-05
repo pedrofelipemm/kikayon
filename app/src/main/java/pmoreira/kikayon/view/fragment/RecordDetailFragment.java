@@ -59,7 +59,7 @@ public class RecordDetailFragment extends Fragment {
             }
         };
 
-        recordDetail = FirebaseUtils.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION).child(recordId);
+        recordDetail = FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_RECORDS).child(recordId);
         recordDetail.addValueEventListener(recordDetailListener);
 
         return view;

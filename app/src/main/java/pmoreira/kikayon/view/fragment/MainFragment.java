@@ -38,7 +38,7 @@ public class MainFragment extends Fragment {
                 RecordInformation.class,
                 R.layout.fragment_main,
                 CardViewFirebaseAdapter.ViewHolder.class,
-                FirebaseUtils.getInstance().getReference(Constants.FIREBASE_RECORDS_LOCATION),
+                FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_RECORDS),
                 new CardClickListener());
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
