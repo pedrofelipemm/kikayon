@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +32,7 @@ public class RecordDetailFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_record_detail, container, false);
 
-        String recordId = getArguments().getString(MainFragment.RECORD_ID);
+        final String recordId = getArguments().getString(MainFragment.RECORD_ID);
 
         recordDetailListener = new ValueEventListener() {
             @Override
@@ -61,6 +62,23 @@ public class RecordDetailFragment extends Fragment {
 
         recordDetail = FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_RECORDS).child(recordId);
         recordDetail.addValueEventListener(recordDetailListener);
+
+        ImageButton editButton = (ImageButton) view.findViewById(R.id.btn_edit_record);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(MainFragment.RECORD_ID, recordId);
+
+                RegisterRecordFragment fragment = new RegisterRecordFragment();
+                fragment.setArguments(bundle);
+
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         return view;
     }

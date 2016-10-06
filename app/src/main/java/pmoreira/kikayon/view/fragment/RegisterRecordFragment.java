@@ -15,13 +15,20 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
@@ -39,6 +46,7 @@ public class RegisterRecordFragment extends Fragment {
     private EditText dateEditText;
     private AppCompatButton newRecordButton;
 
+    private String recordId;
     private Long timeInMillis;
     private int status = RecordInformation.STATUS_LIVE;
 
@@ -48,7 +56,42 @@ public class RegisterRecordFragment extends Fragment {
 
         initializeView(view);
 
+        if (getArguments() != null && (recordId = getArguments().getString(MainFragment.RECORD_ID)) != null)
+            populateFields();
+
         return view;
+    }
+
+    private void populateFields() {
+        FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_RECORDS).child(recordId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(final DataSnapshot dataSnapshot) {
+                        RecordInformation record = dataSnapshot.getValue(RecordInformation.class);
+
+                        SpinnerAdapter adapter = loginSpinner.getAdapter();
+                        for (int i = 0; i < adapter.getCount(); i++) {
+                            if (adapter.getItem(i).equals(record.getLogin())) {
+                                loginSpinner.setSelection(i);
+                                break;
+                            }
+                        }
+
+                        descriptionEditText.setText(record.getDescription());
+                        observationEditText.setText(record.getObservation());
+                        dateEditText.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(record.getLastChangeLong())));
+                        liveRadio.setChecked(record.getStatus() == RecordInformation.STATUS_LIVE);
+                        deadRadio.setChecked(record.getStatus() == RecordInformation.STATUS_DEAD);
+                        status = record.getStatus();
+                        timeInMillis = record.getLastChangeLong();
+                    }
+
+                    @Override
+                    public void onCancelled(final DatabaseError databaseError) {
+
+                    }
+                });
+
     }
 
     private void initializeView(final View view) {
@@ -148,9 +191,12 @@ public class RegisterRecordFragment extends Fragment {
                     loginSpinner.getSelectedItem().toString(),
                     status, timeInMillis);
 
-            FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_RECORDS)
-                    .push()
-                    .setValue(record);
+            DatabaseReference database = FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_RECORDS);
+            if (recordId != null) {
+                database.child(recordId).setValue(record);
+            } else {
+                database.push().setValue(record);
+            }
 
             resetFields();
 
