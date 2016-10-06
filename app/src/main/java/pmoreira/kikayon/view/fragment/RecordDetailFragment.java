@@ -1,7 +1,9 @@
 package pmoreira.kikayon.view.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +79,34 @@ public class RecordDetailFragment extends Fragment {
                         .replace(R.id.container_content, fragment)
                         .addToBackStack(null)
                         .commit();
+            }
+        });
+
+        ImageButton deleteButton = (ImageButton) view.findViewById(R.id.btn_delete_record);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                new AlertDialog.Builder(RecordDetailFragment.this.getActivity())
+                        .setMessage("Do you really want to delete this record??")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_RECORDS).child(recordId)
+                                        .removeValue(new DatabaseReference.CompletionListener() {
+                                            @Override
+                                            public void onComplete(final DatabaseError databaseError, final DatabaseReference databaseReference) {
+                                                getFragmentManager().popBackStack();
+                                            }
+                                        });
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
             }
         });
 
