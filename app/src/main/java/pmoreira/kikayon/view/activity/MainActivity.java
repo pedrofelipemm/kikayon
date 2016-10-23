@@ -12,10 +12,13 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import pmoreira.kikayon.R;
+import pmoreira.kikayon.utils.DrawableUtils;
 import pmoreira.kikayon.utils.FragmentUtils;
 import pmoreira.kikayon.view.fragment.DrawerFragment;
 
@@ -37,18 +40,28 @@ public class MainActivity extends AppCompatActivity {
         DrawerFragment drawer = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.drawer_fragment);
         drawer.setUp((DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         TextView name = (TextView) findViewById(R.id.profile_name);
         name.setText(currentUser.getDisplayName());
 
         TextView email = (TextView) findViewById(R.id.profile_email);
         email.setText(currentUser.getEmail());
 
-        ImageView profilePicture = (ImageView) findViewById(R.id.profile_picture);
+        final ImageView profilePicture = (ImageView) findViewById(R.id.profile_picture);
         Picasso.with(this)
                 .load(currentUser.getPhotoUrl())
+                .networkPolicy(NetworkPolicy.OFFLINE)
                 .transform(new CropCircleTransformation())
-                .into(profilePicture);
+                .into(profilePicture, new Callback.EmptyCallback() {
+                    @Override
+                    public void onError() {
+                        Picasso.with(MainActivity.this)
+                                .load(currentUser.getPhotoUrl())
+                                .transform(new CropCircleTransformation())
+                                .error(DrawableUtils.getDrawable(MainActivity.this, R.drawable.ic_account_circle_white_48dp))
+                                .into(profilePicture);
+                    }
+                });
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +23,7 @@ import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
 import pmoreira.kikayon.utils.Constants;
 import pmoreira.kikayon.utils.FirebaseUtils;
+import pmoreira.kikayon.widget.RoundedImageView;
 
 
 public class RecordDetailFragment extends Fragment {
@@ -52,7 +54,7 @@ public class RecordDetailFragment extends Fragment {
                     observationTextView.setText(record.getObservation());
 
                     TextView dateTextView = (TextView) view.findViewById(R.id.date);
-                    dateTextView.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(record.getLastChangeLong())));
+                    dateTextView.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(record.getDateLong())));
                 }
             }
 
@@ -61,6 +63,8 @@ public class RecordDetailFragment extends Fragment {
 
             }
         };
+
+        ImageView image = (ImageView) view.findViewById(R.id.image);
 
         recordDetail = FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_RECORDS).child(recordId);
         recordDetail.addValueEventListener(recordDetailListener);

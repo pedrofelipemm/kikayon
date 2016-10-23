@@ -15,7 +15,7 @@ public class RecordInformation extends Information {
     private String observation;
     private String login;
     private int status;
-    private Object lastChange;
+    private Object date;
 
     public RecordInformation() {
     }
@@ -25,13 +25,13 @@ public class RecordInformation extends Information {
         this.observation = observation;
         this.login = login;
         this.status = status;
-        lastChange = ServerValue.TIMESTAMP;
+        date = ServerValue.TIMESTAMP;
     }
 
-    public RecordInformation(final int imageId, final String description, @Nullable final String observation, final String login, final int status, final Long lastChange) {
+    public RecordInformation(final int imageId, final String description, @Nullable final String observation, final String login, final int status, final Long date) {
         this(imageId, description, observation, login, status);
-        if (lastChange != null)
-            this.lastChange = lastChange;
+        if (date != null)
+            this.date = date;
     }
 
     public String getObservation() {
@@ -46,12 +46,12 @@ public class RecordInformation extends Information {
         return status;
     }
 
-    public Object getLastChange() {
-        return lastChange;
+    public Object getDate() {
+        return date;
     }
 
     @Exclude
-    public Long getLastChangeLong() {
-        return lastChange != null ? (Long) lastChange : null;
+    public Long getDateLong() {
+        return date != null ? (Long) date : null;
     }
 }

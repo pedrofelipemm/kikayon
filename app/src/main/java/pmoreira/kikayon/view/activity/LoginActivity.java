@@ -24,10 +24,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import pmoreira.kikayon.BuildConfig;
 import pmoreira.kikayon.R;
+import pmoreira.kikayon.utils.Constants;
+import pmoreira.kikayon.utils.FirebaseUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
+
+    private boolean logged;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -108,11 +117,40 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
 
-        String email = result.getSignInAccount().getEmail();
-        String domain = email.substring(email.indexOf("@"));
+        String domain = extractDomain(result.getSignInAccount().getEmail());
 
-        return VALID_DOMAIN.equals(domain);
-//        return true;
+//        return VALID_DOMAIN.equals(domain);
+        return true;
+    }
+
+    //TODO EXTRACT
+    public static String extractDomain(final String email) {
+        return email.substring(email.indexOf("@"));
+    }
+
+    public static String extractLogin(final String email) {
+        return email.substring(0, email.indexOf("@"));
+    }
+
+    public static String encodeUrl(final String url) {
+        String encodedUrl;
+        try {
+            encodedUrl = URLEncoder.encode(String.valueOf(url), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            encodedUrl = "";
+        }
+        return encodedUrl;
+    }
+
+    public static final String decodeUrl(final String url) {
+        String decodedUrl = "";
+        if (url != null) {
+            try {
+                decodedUrl = URLDecoder.decode(url, "utf-8");
+            } catch (UnsupportedEncodingException e) {
+            }
+        }
+        return decodedUrl;
     }
 
     private void setUp() {
@@ -141,7 +179,14 @@ public class LoginActivity extends AppCompatActivity {
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() != null) {
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                if (currentUser != null && !logged) {
+                    logged = true;
+
+                    FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_IMAGES)
+                            .child(extractLogin(currentUser.getEmail()))
+                            .setValue(encodeUrl(String.valueOf(currentUser.getPhotoUrl())));
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -164,7 +209,7 @@ public class LoginActivity extends AppCompatActivity {
                 .setResultCallback(new ResultCallback<Status>() {
                     @Override
                     public void onResult(final Status status) {
-                        signIn();
+                        //TODO
                     }
                 });
     }

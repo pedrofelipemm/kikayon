@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:text="HELLO WORLD! "
             android:textStyle="bold"/>
 
     </LinearLayout>

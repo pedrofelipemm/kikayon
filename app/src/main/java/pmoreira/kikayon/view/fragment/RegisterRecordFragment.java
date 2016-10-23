@@ -79,11 +79,11 @@ public class RegisterRecordFragment extends Fragment {
 
                         descriptionEditText.setText(record.getDescription());
                         observationEditText.setText(record.getObservation());
-                        dateEditText.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(record.getLastChangeLong())));
+                        dateEditText.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(record.getDateLong())));
                         liveRadio.setChecked(record.getStatus() == RecordInformation.STATUS_LIVE);
                         deadRadio.setChecked(record.getStatus() == RecordInformation.STATUS_DEAD);
                         status = record.getStatus();
-                        timeInMillis = record.getLastChangeLong();
+                        timeInMillis = record.getDateLong();
                     }
 
                     @Override
@@ -196,6 +196,7 @@ public class RegisterRecordFragment extends Fragment {
                 database.child(recordId).setValue(record);
             } else {
                 database.push().setValue(record);
+
             }
 
             resetFields();

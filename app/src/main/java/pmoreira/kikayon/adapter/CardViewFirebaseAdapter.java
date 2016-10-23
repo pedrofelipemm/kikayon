@@ -15,7 +15,6 @@ import java.text.SimpleDateFormat;
 
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
-import pmoreira.kikayon.utils.DrawableUtils;
 
 public class CardViewFirebaseAdapter extends FirebaseRecyclerAdapter<RecordInformation, CardViewFirebaseAdapter.ViewHolder> {
 
@@ -37,7 +36,7 @@ public class CardViewFirebaseAdapter extends FirebaseRecyclerAdapter<RecordInfor
     @Override
     protected void populateViewHolder(final ViewHolder viewHolder, final RecordInformation model, final int position) {
 
-        CardView cardView = viewHolder.cardView;
+        final CardView cardView = viewHolder.cardView;
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -48,12 +47,43 @@ public class CardViewFirebaseAdapter extends FirebaseRecyclerAdapter<RecordInfor
         TextView description = ((TextView) cardView.findViewById(R.id.description));
         description.setText(model.getDescription());
 
-        ImageView image = (ImageView) cardView.findViewById(R.id.image);
-        image.setImageDrawable(DrawableUtils.getDrawable(cardView.getContext(), model.getImageId()));
+        final ImageView image = (ImageView) cardView.findViewById(R.id.image);
+//        image.setImageDrawable(cardView.getContext(), android.R.drawable.);
+//TODO        image.setImageDrawable(DrawableUtils.getDrawable(cardView.getContext(), model.getImageId()));
+//        FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_IMAGES)
+//                .child(model.getLogin())
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        final String url = dataSnapshot.getValue(String.class);
+//                        Log.d("pedro", LoginActivity.decodeUrl(url));
+//                        Picasso.with(cardView.getContext())
+//                                .load(LoginActivity.decodeUrl(url) != "" ? LoginActivity.decodeUrl(url) : "312") // TODO:
+//                                .networkPolicy(NetworkPolicy.OFFLINE)
+//                                .transform(new CropCircleTransformation())
+//                                .into(image, new Callback.EmptyCallback() {
+//                                    @Override
+//                                    public void onError() {
+//                                        Picasso.with(cardView.getContext())
+//                                                .load(url)
+//                                                .transform(new CropCircleTransformation())
+//                                                .error(DrawableUtils.getDrawable(cardView.getContext(), R.drawable.ic_account_circle_white_48dp))
+//                                                .into(image);
+//                                    }
+//                                });
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                });
+
+
         image.setContentDescription(model.getDescription());
 
         if (model instanceof RecordInformation) {
-            String lastChange = new SimpleDateFormat("yyyy").format(model.getLastChangeLong());
+            String lastChange = new SimpleDateFormat("yyyy").format(model.getDateLong());
             String login = model.getLogin();
             String authorDate = String.format("(%s, %s)", login, lastChange);
 
