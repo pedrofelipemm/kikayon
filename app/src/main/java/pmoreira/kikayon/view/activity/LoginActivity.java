@@ -2,6 +2,7 @@ package pmoreira.kikayon.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,10 +27,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashSet;
+import java.util.List;
 
 import pmoreira.kikayon.BuildConfig;
 import pmoreira.kikayon.R;
@@ -119,8 +125,8 @@ public class LoginActivity extends AppCompatActivity {
 
         String domain = extractDomain(result.getSignInAccount().getEmail());
 
-//        return VALID_DOMAIN.equals(domain);
-        return true;
+        return VALID_DOMAIN.equals(domain);
+//        return true;
     }
 
     //TODO EXTRACT
@@ -186,6 +192,23 @@ public class LoginActivity extends AppCompatActivity {
                     FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_IMAGES)
                             .child(extractLogin(currentUser.getEmail()))
                             .setValue(encodeUrl(String.valueOf(currentUser.getPhotoUrl())));
+
+                     FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_LOGINS)
+                            .addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    List<String> logins = (List<String>) dataSnapshot.getValue();
+
+                                    SharedPreferences.Editor editor = getSharedPreferences(Constants.SHARED_PREFERENCES_DEFAULT, Context.MODE_PRIVATE).edit();
+                                    editor.putStringSet(Constants.SHARED_PREFERENCES_KEY_LOGINS, new HashSet<String>(logins));
+                                    editor.commit();
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

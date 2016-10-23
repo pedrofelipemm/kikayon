@@ -27,8 +27,13 @@ import com.google.firebase.database.ValueEventListener;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
@@ -96,7 +101,7 @@ public class RegisterRecordFragment extends Fragment {
 
     private void initializeView(final View view) {
         loginSpinner = (Spinner) view.findViewById(R.id.input_login);
-        loginSpinner.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, mockLogin()));
+        loginSpinner.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, getLogins()));
 
         descriptionEditText = (EditText) view.findViewById(R.id.input_description);
         observationEditText = (EditText) view.findViewById(R.id.input_obs);
@@ -151,14 +156,15 @@ public class RegisterRecordFragment extends Fragment {
         timeInMillis = null;
     }
 
-    private String[] mockLogin() { //TODO DELETE
-        return new String[]{
-                "alans",
-                "fmaldonado",
-                "pedrov",
-                "pmoreira",
-                "rmariano"
-        };
+    private String[] getLogins() {
+        Set<String> logins = getActivity()
+                .getSharedPreferences(Constants.SHARED_PREFERENCES_DEFAULT, Context.MODE_PRIVATE)
+                .getStringSet(Constants.SHARED_PREFERENCES_KEY_LOGINS, new HashSet<String>());
+
+        List<String> sortedLogins = new ArrayList<>(logins);
+        Collections.sort(sortedLogins);
+
+        return sortedLogins.toArray(new String[sortedLogins.size()]);
     }
 
     @Override

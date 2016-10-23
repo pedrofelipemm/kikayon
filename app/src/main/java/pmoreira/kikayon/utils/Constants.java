@@ -13,4 +13,7 @@ public class Constants {
 
     public static final String FIREBASE_LOCATION_SETTINGS = "settings";
     public static final String FIREBASE_LOCATION_SETTINGS_VALIDATE_EMAIL = "settings_validate_email";
+
+    public static final String SHARED_PREFERENCES_DEFAULT = "defaultSharedPreferences";
+    public static final String SHARED_PREFERENCES_KEY_LOGINS = "logins";
 }
