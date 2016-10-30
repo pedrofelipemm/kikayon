@@ -15,15 +15,20 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
 import pmoreira.kikayon.utils.Constants;
+import pmoreira.kikayon.utils.DrawableUtils;
 import pmoreira.kikayon.utils.FirebaseUtils;
-import pmoreira.kikayon.widget.RoundedImageView;
+import pmoreira.kikayon.view.activity.LoginActivity;
 
 
 public class RecordDetailFragment extends Fragment {
@@ -55,6 +60,31 @@ public class RecordDetailFragment extends Fragment {
 
                     TextView dateTextView = (TextView) view.findViewById(R.id.date);
                     dateTextView.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(record.getDateLong())));
+
+                    final ImageView image = (ImageView) view.findViewById(R.id.image);
+                    FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_IMAGES)
+                            .child(record.getLogin())
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    final String url = dataSnapshot.getValue(String.class);
+                                    Picasso.with(view.getContext())
+                                            .load(LoginActivity.decodeUrl(url) != "" ? LoginActivity.decodeUrl(url) : "imageNotLoaded")
+                                            .networkPolicy(NetworkPolicy.OFFLINE)
+                                            .transform(new CropCircleTransformation())
+                                            .into(image, new Callback.EmptyCallback() {
+                                                @Override
+                                                public void onError() {
+                                                    image.setImageDrawable(DrawableUtils.getDrawable(view.getContext(), R.drawable.ic_account_circle_white_48dp));
+                                                }
+                                            });
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                 }
             }
 

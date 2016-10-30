@@ -39,7 +39,7 @@ android {
 ext {
     firebaseVersion = '9.6.1'
     gmsVersion = '9.6.1'
-    supportLibVersion = '24.2.1'
+    supportLibVersion = '25.0.0'
 }
 
 dependencies {

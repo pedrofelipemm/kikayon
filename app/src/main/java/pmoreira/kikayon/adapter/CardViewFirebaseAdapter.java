@@ -59,8 +59,6 @@ public class CardViewFirebaseAdapter extends FirebaseRecyclerAdapter<RecordInfor
         description.setText(model.getDescription());
 
         final ImageView image = (ImageView) cardView.findViewById(R.id.image);
-//        image.setImageDrawable(cardView.getContext(), android.R.drawable.);
-//        image.setImageDrawable(DrawableUtils.getDrawable(cardView.getContext(), model.getImageId()));
         FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_IMAGES)
                 .child(model.getLogin())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -68,10 +66,9 @@ public class CardViewFirebaseAdapter extends FirebaseRecyclerAdapter<RecordInfor
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         final String url = dataSnapshot.getValue(String.class);
                         Picasso.with(cardView.getContext())
-                                .load(LoginActivity.decodeUrl(url) != "" ? LoginActivity.decodeUrl(url) : "imageNotLoaded") // TODO:
+                                .load(LoginActivity.decodeUrl(url) != "" ? LoginActivity.decodeUrl(url) : "imageNotLoaded")
                                 .networkPolicy(NetworkPolicy.OFFLINE)
                                 .transform(new CropCircleTransformation())
-                                .error(R.drawable.ic_account_circle_white_48dp)
                                 .into(image, new Callback.EmptyCallback() {
                                     @Override
                                     public void onError() {
@@ -85,7 +82,6 @@ public class CardViewFirebaseAdapter extends FirebaseRecyclerAdapter<RecordInfor
 
                     }
                 });
-
 
         image.setContentDescription(model.getDescription());
 
