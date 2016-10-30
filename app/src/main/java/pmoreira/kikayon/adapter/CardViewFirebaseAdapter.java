@@ -9,12 +9,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import pmoreira.kikayon.R;
 import pmoreira.kikayon.model.RecordInformation;
+import pmoreira.kikayon.utils.Constants;
+import pmoreira.kikayon.utils.DrawableUtils;
+import pmoreira.kikayon.utils.FirebaseUtils;
+import pmoreira.kikayon.view.activity.LoginActivity;
 
 public class CardViewFirebaseAdapter extends FirebaseRecyclerAdapter<RecordInformation, CardViewFirebaseAdapter.ViewHolder> {
 
@@ -49,35 +60,31 @@ public class CardViewFirebaseAdapter extends FirebaseRecyclerAdapter<RecordInfor
 
         final ImageView image = (ImageView) cardView.findViewById(R.id.image);
 //        image.setImageDrawable(cardView.getContext(), android.R.drawable.);
-//TODO        image.setImageDrawable(DrawableUtils.getDrawable(cardView.getContext(), model.getImageId()));
-//        FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_IMAGES)
-//                .child(model.getLogin())
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        final String url = dataSnapshot.getValue(String.class);
-//                        Log.d("pedro", LoginActivity.decodeUrl(url));
-//                        Picasso.with(cardView.getContext())
-//                                .load(LoginActivity.decodeUrl(url) != "" ? LoginActivity.decodeUrl(url) : "312") // TODO:
-//                                .networkPolicy(NetworkPolicy.OFFLINE)
-//                                .transform(new CropCircleTransformation())
-//                                .into(image, new Callback.EmptyCallback() {
-//                                    @Override
-//                                    public void onError() {
-//                                        Picasso.with(cardView.getContext())
-//                                                .load(url)
-//                                                .transform(new CropCircleTransformation())
-//                                                .error(DrawableUtils.getDrawable(cardView.getContext(), R.drawable.ic_account_circle_white_48dp))
-//                                                .into(image);
-//                                    }
-//                                });
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//
-//                    }
-//                });
+//        image.setImageDrawable(DrawableUtils.getDrawable(cardView.getContext(), model.getImageId()));
+        FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_IMAGES)
+                .child(model.getLogin())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String url = dataSnapshot.getValue(String.class);
+                        Picasso.with(cardView.getContext())
+                                .load(LoginActivity.decodeUrl(url) != "" ? LoginActivity.decodeUrl(url) : "imageNotLoaded") // TODO:
+                                .networkPolicy(NetworkPolicy.OFFLINE)
+                                .transform(new CropCircleTransformation())
+                                .error(R.drawable.ic_account_circle_white_48dp)
+                                .into(image, new Callback.EmptyCallback() {
+                                    @Override
+                                    public void onError() {
+                                        image.setImageDrawable(DrawableUtils.getDrawable(cardView.getContext(), R.drawable.ic_account_circle_white_48dp));
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
 
         image.setContentDescription(model.getDescription());
