@@ -1,0 +1,42 @@
+{
+  "images" : {
+    "murilop" : "https%3A%2F%2Flh6.googleusercontent.com%2F-himTgL-XSHM%2FAAAAAAAAAAI%2FAAAAAAAAADw%2FwwwOtYhxCtY%2Fs96-c%2Fphoto.jpg",
+    "pmoreira" : "https%3A%2F%2Flh3.googleusercontent.com%2F-Yz2wAO40ztI%2FAAAAAAAAAAI%2FAAAAAAAAAYU%2FDQQEeLNkRu0%2Fs96-c%2Fphoto.jpg"
+  },
+  "logins" : [ "alans", "andrelise", "ariane", "bteixeira", "carlosh", "davirs", "dmegda", "dzigrossi", "dmenon", "douglas", "fbrolesi", "fmaldonado", "gtagliari", "hribeiro", "isaiasj", "jgaravelli", "lmoretti", "lucasmf", "moises", "murilop", "pedrov", "pmoreira", "rmariano", "rfrealdo" ],
+  "records" : {
+    "-KT1ypupGlcKcmbozFvm" : {
+      "date" : 1475371294722,
+      "description" : "Software livre é para quem tem tempo livre",
+      "imageId" : 2130837641,
+      "login" : "carlosh"
+    },
+    "-KT1ypuryofoLh0-O7Dy" : {
+      "date" : 1475371294938,
+      "description" : "O que a gente não faz por hora extra?",
+      "imageId" : 2130837641,
+      "login" : "dmenon"
+    },
+    "-KT1ypusboFn59OeixTx" : {
+      "date" : 1475371294939,
+      "description" : "Estava mijando pensando em você",
+      "imageId" : 2130837641,
+      "login" : "murilop",
+      "observation" : "Falando com o dmenon durante o almoço sobre a pedra no rim"
+    },
+    "-KT1ypusboFn59OeixTy" : {
+      "date" : 1475371294940,
+      "description" : "Sim, não só dei, como até amassou. Tive até que trocar o portão",
+      "imageId" : 2130837641,
+      "login" : "alans",
+      "observation" : "Quando o lmoretti perguntou se ele já havia dado ré sem dó de si"
+    },
+    "-KT1yput18Gob1mRbREL" : {
+      "date" : 1475371294941,
+      "description" : "O bom senso que é difíce",
+      "imageId" : 2130837641,
+      "login" : "rmariano",
+      "observation" : "Antes de comer absurdo no pesqueiro do rolinha"
+    }
+  }
+}

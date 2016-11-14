@@ -11,11 +11,6 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        applicationVariants.all { variant ->
-            variant.outputs.each { output ->
-                output.outputFile = file("$project.buildDir/apk/kikayion-debug.apk")
-            }
-        }
         debug {
             it.buildConfigField 'String', 'UNIQUE_FIREBASE_ROOT_URL', UniqueFirebaseRootUrlDebug
             it.buildConfigField 'String', 'FIREBASE_TOKEN_ID', FirebaseTokenIdDebug

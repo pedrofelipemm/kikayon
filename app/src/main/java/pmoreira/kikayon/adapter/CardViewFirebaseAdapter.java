@@ -64,15 +64,20 @@ public class CardViewFirebaseAdapter extends FirebaseRecyclerAdapter<RecordInfor
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        final String url = dataSnapshot.getValue(String.class);
+                        final String temp = dataSnapshot.getValue(String.class);
+                        final String url = !"".equals(LoginActivity.decodeUrl(temp)) ? LoginActivity.decodeUrl(temp) : "imageNotLoaded";
                         Picasso.with(cardView.getContext())
-                                .load(LoginActivity.decodeUrl(url) != "" ? LoginActivity.decodeUrl(url) : "imageNotLoaded")
+                                .load(url)
                                 .networkPolicy(NetworkPolicy.OFFLINE)
                                 .transform(new CropCircleTransformation())
                                 .into(image, new Callback.EmptyCallback() {
                                     @Override
                                     public void onError() {
-                                        image.setImageDrawable(DrawableUtils.getDrawable(cardView.getContext(), R.drawable.ic_account_circle_white_48dp));
+                                        Picasso.with(cardView.getContext())
+                                                .load(url)
+                                                .transform(new CropCircleTransformation())
+                                                .error(DrawableUtils.getDrawable(cardView.getContext(), R.drawable.ic_account_circle_white_48dp))
+                                                .into(image);
                                     }
                                 });
                     }
@@ -85,21 +90,19 @@ public class CardViewFirebaseAdapter extends FirebaseRecyclerAdapter<RecordInfor
 
         image.setContentDescription(model.getDescription());
 
-        if (model instanceof RecordInformation) {
             String lastChange = new SimpleDateFormat("yyyy").format(model.getDateLong());
             String login = model.getLogin();
             String authorDate = String.format("(%s, %s)", login, lastChange);
 
             TextView dateTextView = (TextView) cardView.findViewById(R.id.author_date);
             dateTextView.setText(authorDate);
-        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cardView;
+        private CardView cardView;
 
-        public ViewHolder(final CardView cardView) {
+        private ViewHolder(final CardView cardView) {
             super(cardView);
             this.cardView = cardView;
         }

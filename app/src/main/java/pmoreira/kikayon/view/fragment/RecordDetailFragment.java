@@ -94,8 +94,6 @@ public class RecordDetailFragment extends Fragment {
             }
         };
 
-        ImageView image = (ImageView) view.findViewById(R.id.image);
-
         recordDetail = FirebaseUtils.getInstance().getReference(Constants.FIREBASE_LOCATION_RECORDS).child(recordId);
         recordDetail.addValueEventListener(recordDetailListener);
 
